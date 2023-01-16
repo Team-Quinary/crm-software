@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
-import useFetch from './useFetch';
-import GetData from './GetData';
 import "./LoginPage.css";
 
 function LoginPage() {
@@ -27,23 +25,21 @@ function LoginPage() {
             return false;
         }
         else {
-            const path = "LoginUser/GetUser/" + username;
-            const data = GetData(path);
+            // const path = "LoginUser/GetUser/" + username;
+            // const data = GetData(path);
 
-            if(data != null){
-                var uname = data[0]["username"]
+            // if(data != null){
+            //     if(data[0]["password"] === password){
+            //         event.preventDefault();
+            //         setUsername("");
+            //         setPassword("");
 
-                if(data[0]["password"] === password){
-                    event.preventDefault();
-                    setUsername("");
-                    setPassword("");
-
-                    navigate('/dashboard');
-                }
+            //         navigate('/dashboard');
+            //     }
                 
-                setPasswordError("Password is incorrect..! Try again.");
-                return false;
-            }
+            //     setPasswordError("Password is incorrect..! Try again.");
+            //     return false;
+            // }
             
             setUsernameError("User does not exist..! Try again.");
             return false;
@@ -63,12 +59,12 @@ function LoginPage() {
     return (
         <div className="loginpage">
             <div className="login-back">
-                <img src={require('../images/login-back-1.webp')} alt="background" />
+                <img src={require('../../images/login-back-1.webp')} alt="background" />
             </div>
             <div className="form-container">
                 <form onSubmit={handleSubmit} className="frmLogIn">
                     <img
-                        src={require('../images/user-vector-light.png')}
+                        src={require('../../images/user-vector-light.png')}
                         className="user-pic"
                         alt="user-pic"
                     />
