@@ -14,7 +14,7 @@ function Dashboard() {
                 <div className="user">
                     <div>
                         <center>
-                            <img className="profile-pic" src={require('../images/image.jpg')} width="130px" alt="Profile" />
+                            <img className="profile-pic" src={require('../../images/image.jpg')} width="130px" alt="Profile" />
                             <h2 className="username">Thushan D. Fernando</h2>
                             <h3 className="user-type">Administrator</h3>
                             <p className="edit-profile">
