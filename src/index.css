@@ -1,0 +1,14 @@
+body, h1, h2, a, nav, ul, li, div {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter';
+}
+h1, h2, h3 {
+    font-weight: 400;
+}
+h2 {
+    font-size: 20px;
+}
+h3 {
+    font-size: 17px;
+}
