@@ -1,14 +1,57 @@
-body, h1, h2, a, nav, ul, li, div {
+body {
     margin: 0;
     padding: 0;
-    font-family: 'Inter';
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
-h1, h2, h3 {
-    font-weight: 400;
+
+.customers, .projects, .users, .endusers {
+    position: relative;
+    top: -15px;
 }
-h2 {
-    font-size: 20px;
+
+.my-masonry-grid {
+    display: -webkit-box;
+    /* Not needed if autoprefixing */
+    display: -ms-flexbox;
+    /* Not needed if autoprefixing */
+    display: flex;
+    margin: 10px 30px 0 0;
+    /* gutter size offset */
+    width: auto;
 }
-h3 {
-    font-size: 17px;
+
+.my-masonry-grid_column {
+    padding-left: 30px;
+    /* gutter size */
+    /* background-clip: padding-box; */
+}
+
+/* Style your items */
+.my-masonry-grid_column>div {
+    /* change div to reference your elements you put in <Masonry> */
+    margin-bottom: 30px;
+}
+
+/* ::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #818181;
+    border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #000000;
+    border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+} */
+
+.color-test {
+    color: #5255c1;
+    color: #6c85bb;
 }
