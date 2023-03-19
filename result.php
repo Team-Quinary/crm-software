@@ -9,7 +9,7 @@
     $status_code         = 2; // $_POST['status_code'];
     // $md5sig              = $_POST['md5sig'];
 
-    $merchant_secret = '4ErnXG3NI3f4KD8UID7eqX8bNl2UxN5By4DxKdlVkpvs'; // Replace with your Merchant Secret
+    $merchant_secret = '8W98DU0cCRi4PZxbLh3fr64PVqGfPO2AE8gleOkmMSgs'; // Replace with your Merchant Secret
         
     $local_md5sig = strtoupper(
         md5(
