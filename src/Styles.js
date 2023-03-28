@@ -185,8 +185,8 @@ export const useStyles = makeStyles()((theme) => {
 // Payments
 
         paymentTable: {
-            overflowY: 'scroll',
-            maxheight: '75vh'
+            // overflowY: 'scroll',
+            // maxHeight: '50vh',
         },
         paymentsContainer: {
             display: 'grid',
@@ -194,8 +194,8 @@ export const useStyles = makeStyles()((theme) => {
             columnGap: '20px',
         },
         payments: {
-            border: '1px solid black',
-            height: '82vh',
+            overflowY: 'scroll',
+            height: '72vh',
         },
         paymentDetailField: {
             marginBottom: '12px'
@@ -228,6 +228,14 @@ export const useStyles = makeStyles()((theme) => {
         payNext: {
             marginTop: '10px',
             backgroundColor: '#6c85bb'
+        },
+        paymentSearchBar: {
+            backgroundColor: '#cdcdcd',
+            padding: '5px',
+            paddingLeft: '20px',
+            borderRadius: '8px',
+            columnGap: theme.spacing(1),
+            marginBottom: '20px',
         }
     }
 });

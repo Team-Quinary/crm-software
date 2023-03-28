@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button, Card, CardContent, Grid, TextField, Typography } from '@mui/material';
 import backimage from '../images/login-back.svg';
 import store from '../store/_storeConfig';
-import { logIn, setLog } from '../store/loginHandle';
+import { logIn } from '../store/loginHandle';
 
 const useStyles = makeStyles()((theme) => {
     return {
@@ -81,14 +81,20 @@ function Login() {
             var data = { username, password };
 
             store.dispatch(logIn(data));
-            store.dispatch(setLog());
 
             handleClear();
-            
-            if (store.getState().token !== null) {
-                navigate('/dashboard');
-            }
-            else alert('Login Failed');
+
+            const unsubscribe = store.subscribe(() => {
+                const token = store.getState().login.token;
+
+                if (token !== null) {
+                    navigate('/dashboard');
+                    unsubscribe();
+                } else {
+                    alert('Login failed');
+                    unsubscribe();
+                }
+            });
         }
     }
 
