@@ -10,9 +10,15 @@ const initialVars = {
     nextInstallment: '-',
     dueDate: '-',
     lastPayment: '-',
+    lastPaymentDate: '-',
     clientSecret: '',
-    message: ''
+    message: '',
+    category: 'Project'
 };
+
+const formatDate = (date) => {
+    return new Date(date).toLocaleDateString("sv-SE");
+}
 
 export const paymentSlice = createSlice({
     name: 'payments',
@@ -21,7 +27,7 @@ export const paymentSlice = createSlice({
         loading: false,
         variables: initialVars,
         searchParams: [
-            'Project', 'Amount', 'Date'
+            'Project', 'Customer', 'Date'
         ]
     },
     reducers: {
@@ -49,7 +55,14 @@ export const paymentSlice = createSlice({
             state.variables[action.payload.field] = action.payload.data;
         },
         projectDetailsLoaded: (state, action) => {
-
+            console.log(action.payload);
+            state.variables.totalFee = action.payload.totalFee;
+            state.variables.installments = action.payload.installments;
+            state.variables.paybleAmount = action.payload.paybleAmount;
+            state.variables.nextInstallment = action.payload.nextInstallment;
+            state.variables.dueDate = formatDate(action.payload.dueDate);
+            state.variables.lastPayment = action.payload.lastPayment;
+            state.variables.lastPaymentDate = formatDate(action.payload.lastPaymentDate);
         }
     }
 })
@@ -85,7 +98,7 @@ export const getClientSecret = (projectId) => (dispatch, getState) => {
 }
 
 export const loadProjectDetails = (projectId) => (dispatch, getState) => {
-    const projectUrl = url + '/Project';
+    const projectUrl = url + '/Project/' + projectId;
 
     dispatch(
         apiCallBegan({

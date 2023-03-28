@@ -12,6 +12,9 @@ import Checkout from "./Checkout";
 import store from "../../store/_storeConfig";
 import './Styles.css';
 import EnhancedTable from "../../components/EnhancedTable";
+import { Search, SearchIconWrapper, StyledInputBase } from '../../components/StyledComponents';
+import Stack from '@mui/material/Stack';
+import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 
 const stripePromise = loadStripe("pk_test_51MUsoZAohmapaowNfCCAq0VgDtiwa4oelYilafpDtugHTyYXKuEfUc9qtlr3PJYXPCW7ikrqUbdtuoS5EDzyOk8v00TYupu58G");
 
@@ -20,10 +23,13 @@ export default function Payments() {
 
     const clientSecret = useSelector(state => state.entities.payments.variables.clientSecret);
     const message = useSelector(state => state.entities.payments.variables.message);
-    const payments = useSelector(state => state.entities.payments.list);
     const projects = useSelector(state => state.entities.projects.list);
 
-    const [open, setOpen] = useState();
+    const searchList = useSelector(state => state.entities.payments.searchParams)
+    const category = useSelector(state => state.entities.payments.variables.category)
+
+    const [open, setOpen] = useState(false);
+    const [search, setSearch] = useState('');
 
     const {
         project,
@@ -32,7 +38,8 @@ export default function Payments() {
         paybleAmount,
         nextInstallment,
         dueDate,
-        lastPayment
+        lastPayment,
+        lastPaymentDate
     } = useSelector(state => state.entities.payments.variables);
 
     useEffect(() => {
@@ -56,8 +63,48 @@ export default function Payments() {
         <div className='payments'>
             <div className={classes.paymentsContainer}>
                 <div>
+                    <div className={classes.paymentSearchBar}>
+                        <Stack
+                            direction='row'
+                            spacing={2}
+                            alignItems='center'
+                            justifyContent='right'
+                            className={classes.searchStack}
+                        >
+                            <Typography>Search by : </Typography>
+                            <Autocomplete
+                                options={searchList}
+                                value={category}
+                                onChange={(event, newValue) => {
+                                    store.dispatch(setPaymentData('category', newValue));
+                                }}
+                                disablePortal
+                                renderInput={({ inputProps, ...rest }) =>
+                                    <TextField {...rest}
+                                        name='type'
+                                        variant='outlined'
+                                        color='secondary'
+                                        inputProps={{ ...inputProps, readOnly: true }}
+                                        size='small'
+                                        sx={{ width: '200px' }}
+                                    />
+                                }
+                            />
+                            <Search>
+                                <SearchIconWrapper>
+                                    <SearchRoundedIcon />
+                                </SearchIconWrapper>
+                                <StyledInputBase
+                                    placeholder="Search…"
+                                    value={search}
+                                    inputProps={{ 'aria-label': 'search' }}
+                                    onChange={(e) => {setSearch(e.target.value)}}
+                                />
+                            </Search>
+                        </Stack>
+                    </div>
                     <div className={classes.payments}>
-                        <EnhancedTable />
+                        <EnhancedTable search={search} />
                     </div>
                 </div>
                 <div>
@@ -72,7 +119,7 @@ export default function Payments() {
                             value={project}
                             onChange={(event, value) => {
                                 store.dispatch(setPaymentData('project', value));
-                                (value !== null && value !== undefined) && store.dispatch(loadProjectDetails(value.projectId))
+                                (value !== null && value !== undefined) && store.dispatch(loadProjectDetails(8))
                             }}
                             renderInput={({ inputProps, ...rest }) =>
                                 <TextField {...rest}
@@ -103,8 +150,11 @@ export default function Payments() {
                             <Typography className={classes.paymentDetailField}>Due Date</Typography>
                             <Typography color='gray' className={classes.paymentDetailField}>: {dueDate}</Typography>
 
-                            <Typography>Last Payment</Typography>
+                            <Typography className={classes.paymentDetailField}>Last Payment</Typography>
                             <Typography color='gray'>: {lastPayment}</Typography>
+                            
+                            <Typography>Payment Date</Typography>
+                            <Typography color='gray'>: {lastPaymentDate}</Typography>
                         </div>
                     </div>
 
@@ -112,7 +162,6 @@ export default function Payments() {
                         fullWidth
                         variant='contained'
                         onClick={() => setOpen(!open)}
-                    // className={classes.payNext}
                     >
                         Pay Next Installment
                     </Button>
