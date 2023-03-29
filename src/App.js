@@ -21,6 +21,7 @@ import { loadCustomers } from './store/customerHandle';
 import { loadEndusers, loadSales } from './store/saleHandle';
 import { loadPayments } from './store/paymentHandle';
 import Payments from './pages/Payments';
+import Progress from './pages/Progress';
 
 const theme = createTheme({
     palette: {
@@ -50,6 +51,7 @@ function App() {
                     <Route path='/customers' element={<Customers />} />
                     <Route path='/users' element={<Users />} />
                     <Route path='/end-users' element={<EndUsers />} />
+                    <Route path='/progress' element={<Progress />} />
                     <Route path='/feedbacks' element={<Feedback />} />
                     <Route path='/newsletters' element={<Newsletters />} />
                     <Route path='/payments' element={<Payments />} />
