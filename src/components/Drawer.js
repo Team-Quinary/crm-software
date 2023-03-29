@@ -53,6 +53,11 @@ export function DrawerBody({ open }) {
             path: '/reports'
         },
         {
+            text: "Progress",
+            icon: <ReceiptLongOutlinedIcon className={classes.drawerIcon} />,
+            path: '/progress'
+        },
+        {
             text: "Feedback Forms",
             icon: <QuestionAnswerOutlinedIcon className={classes.drawerIcon} />,
             path: '/feedbacks'
