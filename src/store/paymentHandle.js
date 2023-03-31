@@ -4,9 +4,9 @@ import { ENDPOINTS } from "./middleware/api";
 
 const initialVars = {
     project: null,
-    totalFee: 0,
-    installments: 0,
-    paybleAmount: 0,
+    totalFee: '-',
+    installments: '-',
+    paybleAmount: '-',
     nextInstallment: '-',
     dueDate: '-',
     lastPayment: '-',
@@ -55,7 +55,6 @@ export const paymentSlice = createSlice({
             state.variables[action.payload.field] = action.payload.data;
         },
         projectDetailsLoaded: (state, action) => {
-            console.log(action.payload);
             state.variables.totalFee = action.payload.totalFee;
             state.variables.installments = action.payload.installments;
             state.variables.paybleAmount = action.payload.paybleAmount;
@@ -85,7 +84,7 @@ export default paymentSlice.reducer;
 const url = ENDPOINTS.payment;
 
 export const getClientSecret = (projectId) => (dispatch, getState) => {
-    const stripeUrl = url + '/Stripe';
+    const stripeUrl = url + '/Stripe/' + projectId;
 
     dispatch(
         apiCallBegan({
@@ -122,13 +121,13 @@ export const loadPayments = () => (dispatch, getState) => {
 };
 
 export const addPayment = (projectId, clientSecret) => (dispatch, getState) => {
-    const paymentId = clientSecret.split('_secret_')[0];
+    const stripeId = clientSecret.split('_secret_')[0];
     
     dispatch(
         apiCallBegan({
             url: url,
             method: 'post',
-            data: { projectId, paymentId },
+            data: { projectId, stripeId },
             onSuccess: paymentAdded.type,
         })
     );

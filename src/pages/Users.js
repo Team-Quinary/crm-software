@@ -15,7 +15,6 @@ import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Autocomplete from '@mui/material/Autocomplete';
-import { generate } from '@wcj/generate-password';
 import { useSelector } from 'react-redux';
 import store from '../store/_storeConfig';
 import { addUser, clearData, updateUser, getUser, removeUser, setUserData, userTypes } from '../store/userHandle';
@@ -30,7 +29,6 @@ export default function Users() {
         contactNo,
         email,
         username,
-        password,
         category,
         sortField,
         open,
@@ -56,9 +54,6 @@ export default function Users() {
 
     const [usernameError, setusernameError] = useState(false);
     var uError = false;
-
-    const [passwordError, setPasswordError] = useState(false);
-    var pError = false;
 
     const [search, setSearch] = useState('');
     const [isUpdate, setIsUpdate] = useState(false);
@@ -91,7 +86,6 @@ export default function Users() {
         setContactError(false);
         setEmailError(false);
         setusernameError(false);
-        setPasswordError(false);
 
         utError = false;
         fError = false;
@@ -99,7 +93,6 @@ export default function Users() {
         cNoError = false;
         eError = false;
         uError = false;
-        pError = false;
     };
 
     const validateForm = () => {
@@ -148,12 +141,7 @@ export default function Users() {
             uError = true;
         }
 
-        if (password === '') {
-            setPasswordError(true);
-            pError = true;
-        }
-
-        if (!(utError || fError || lError || cNoError || eError || (!isUpdate && (uError || pError))))
+        if (!(utError || fError || lError || cNoError || eError || (!isUpdate && uError)))
             return true;
         else
             return false;
@@ -165,7 +153,7 @@ export default function Users() {
         if (validateForm()) {
             var data = {
                 type,
-                username, password, firstName, lastName, contactNo, email,
+                username, firstName, lastName, contactNo, email,
                 profilePic: '-'
             };
 
@@ -279,13 +267,9 @@ export default function Users() {
 
     useEffect(() => {
         if (open && !isUpdate) {
-            if (password === '') {
-                var pwd = generate({ length: 10 });
-                store.dispatch(setUserData('password', pwd));
-            }
             store.dispatch(setUserData('username', firstName.replace(/\s/g, '_')));
         }
-    }, [open, isUpdate, firstName, password]);
+    }, [open, isUpdate, firstName]);
 
     return (
         <div className='users'>
@@ -403,21 +387,6 @@ export default function Users() {
                                 error={usernameError}
                                 helperText={usernameError ? "Can not be Empty" : null}
                                 onChange={(e) => store.dispatch(setUserData('username', e.target.value))}
-                            />
-
-                            <TextField
-                                required
-                                fullWidth
-                                type='text'
-                                name='password'
-                                value={password}
-                                label='Password'
-                                variant='standard'
-                                color='secondary'
-                                className={classes.field}
-                                error={passwordError}
-                                helperText={passwordError ? "Can not be Empty" : null}
-                                onChange={(e) => store.dispatch(setUserData('password', e.target.value))}
                             />
                         </>
                     }

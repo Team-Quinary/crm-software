@@ -14,7 +14,6 @@ import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import { generate } from '@wcj/generate-password';
 import store from '../store/_storeConfig';
 import { useSelector } from 'react-redux';
 import { 
@@ -35,7 +34,6 @@ function Customers() {
         contactNo,
         email,
         username,
-        password,
         category,
         open
     } = useSelector((state) => state.entities.customers.variables);
@@ -57,9 +55,6 @@ function Customers() {
 
     const [usernameError, setusernameError] = useState(false);
     var uError = false;
-
-    const [passwordError, setPasswordError] = useState(false);
-    var pError = false;
 
     const [search, setSearch] = useState('');
     const [isUpdate, setIsUpdate] = useState(false);
@@ -93,14 +88,12 @@ function Customers() {
         setContactError(false);
         setEmailError(false);
         setusernameError(false);
-        setPasswordError(false);
 
         cError = false;
         cpError = false;
         cNoError = false;
         eError = false;
         uError = false;
-        pError = false;
     };
 
     const validateForm = () => {
@@ -152,12 +145,7 @@ function Customers() {
             uError = true;
         }
 
-        if (password === '') {
-            setPasswordError(true);
-            pError = true;
-        }
-
-        if (!(cError || cpError || cNoError || eError || (!isUpdate && (uError || pError))) && company)
+        if (!(cError || cpError || cNoError || eError || (!isUpdate && uError)) && company)
             return true;
         else
             return false;
@@ -172,7 +160,7 @@ function Customers() {
 
             var data = {
                 type: "Customer",
-                username, password, firstName, lastName, contactNo, email,
+                username, firstName, lastName, contactNo, email,
                 profilePic: '-', company
             };
 
@@ -282,13 +270,9 @@ function Customers() {
 
     useEffect(() => {
         if (open && !isUpdate) {
-            if (password === '') {
-                var pwd = generate({ length: 10 });
-                store.dispatch(setCustomerData('password', pwd));
-            }
             store.dispatch(setCustomerData('username', company.replace(/\s/g, '_')));
         }
-    }, [open, isUpdate, company, password]);
+    }, [open, isUpdate, company]);
 
     return (
         <div className='customers'>
@@ -383,21 +367,6 @@ function Customers() {
                                 error={usernameError}
                                 helperText={usernameError ? "Can not be Empty" : null}
                                 onChange={(e) => store.dispatch(setCustomerData('username', e.target.value))}
-                            />
-
-                            <TextField
-                                required
-                                fullWidth
-                                type='text'
-                                name='password'
-                                value={password}
-                                label='Password'
-                                variant='standard'
-                                color='secondary'
-                                className={classes.field}
-                                error={passwordError}
-                                helperText={passwordError ? "Can not be Empty" : null}
-                                onChange={(e) => store.dispatch(setCustomerData('password', e.target.value))}
                             />
                         </>
                     }
