@@ -223,7 +223,7 @@ export function AppBarBody() {
                         color='secondary'
                         className={classes.field}
                         // error={emailError}
-                        // helperText={emailError ? emailErrorMsg : null}
+                        // helperText={emailError ? "Email is req" : null}
                         // onChange={(e) => store.dispatch(setCustomerData('email', e.target.value))}
                     />
 
