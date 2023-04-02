@@ -22,11 +22,8 @@ import { loadEndusers, loadSales } from './store/saleHandle';
 import { loadPayments } from './store/paymentHandle';
 import Payments from './pages/Payments';
 import Progress from './pages/Progress';
-<<<<<<< HEAD
 import Report from './pages/Report';
-=======
 import FeedbackDashboard from './pages/FeedbackDashboard';
->>>>>>> main
 
 const theme = createTheme({
     palette: {
@@ -61,12 +58,9 @@ function App() {
                     <Route path='/newsletters' element={<Newsletters />} />
                     <Route path='/payments' element={<Payments />} />
                     <Route path='/*' element={<Test />} />
-<<<<<<< HEAD
                     <Route path='/reports' element={<Report/>} /></Route>
-=======
                     <Route path='/feedbackDashboard' element={<FeedbackDashboard/>}/>
                 </Route>
->>>>>>> main
             </>
         )
     );
