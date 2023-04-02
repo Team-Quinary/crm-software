@@ -1,11 +1,44 @@
-.chart {
+.analysis {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.analysiscol {
+    margin: 0px 20px;
+    flex: 1;
+    padding: 10px;
+    border-radius: 20px;
+    cursor: pointer;
+    box-shadow: 0px 10px 15px -3px rgba(16, 5, 5, 0.1);
+}
+
+.analysiscol2 {
+    margin: 0px 20px;
+    flex: 2;
+    height: 250px;
+    width: 60px;
+    padding: 10px;
+    border-radius: 20px;
+    cursor: pointer;
+    box-shadow: 0px 10px 15px -3px rgba(16, 5, 5, 0.1);
+}
+
+/* .chart {
     flex: 4;
     margin: 20px;
     padding: 10px;
     box-shadow: 0px 10px 30px -3px rgba(16, 5, 5, 0.1);
     border-radius: 20px;
-}
+} */
 
 .charttitle {
     margin-bottom: 20px;
 }
+
+/* .questiontable{
+    padding-top: 300px;
+    padding-left: px;
+    border-radius: 20px;
+} */

@@ -15,6 +15,7 @@ import PermContactCalendarOutlinedIcon from '@mui/icons-material/PermContactCale
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useStyles } from '../Styles';
+import TimelineIcon from '@mui/icons-material/Timeline';
 
 export function DrawerBody({ open }) {
     const navigate = useNavigate();
@@ -61,6 +62,11 @@ export function DrawerBody({ open }) {
             text: "Feedback Forms",
             icon: <QuestionAnswerOutlinedIcon className={classes.drawerIcon} />,
             path: '/feedbacks'
+        },
+        {
+            text: "Feedback Dashboard",
+            icon: <TimelineIcon className={classes.drawerIcon} />,
+            path: '/feedbackDashboard'
         },
         {
             text: "Newsletters",
