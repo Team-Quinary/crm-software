@@ -1,0 +1,53 @@
+.analysis {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    column-gap: 20px;
+    margin-top: 20px;
+}
+
+.analysiscol {
+    margin: 0px 20px;
+    padding: 10px;
+    border-radius: 20px;
+    cursor: pointer;
+    box-shadow: 0px 10px 15px -3px rgba(16, 5, 5, 0.1);
+}
+
+.analys-elements {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.analysiscol2 {
+    margin: 0px 20px;
+    padding: 10px;
+    border-radius: 20px;
+    cursor: pointer;
+    box-shadow: 0px 10px 15px -3px rgba(16, 5, 5, 0.1);
+    background-color: #fff;
+}
+
+.questiontable {
+    grid-column: 1 / span 2;
+    margin-top: 20px;
+    padding: 20px;
+}
+
+/* .chart {
+    flex: 4;
+    margin: 20px;
+    padding: 10px;
+    box-shadow: 0px 10px 30px -3px rgba(16, 5, 5, 0.1);
+    border-radius: 20px;
+} */
+
+.charttitle {
+    margin-bottom: 20px;
+}
+
+/* .questiontable{
+    padding-top: 300px;
+    padding-left: px;
+    border-radius: 20px;
+} */
