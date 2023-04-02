@@ -40,6 +40,12 @@ export const loginSlice = createSlice({
         loggedOut: (state, action) => {
             state.token = null;
             state.currentUser = initialUser;
+        },
+        dataCleared: (state, action) => {
+            state.currentUser = initialUser;
+        },
+        dataSet: (state, action) => {
+            state.currentUser[action.payload.field] = action.payload.data;
         }
     }
 })
@@ -47,6 +53,8 @@ export const loginSlice = createSlice({
 const {
     loggedIn,
     gotTokenData,
+    dataCleared,
+    dataSet
 } = loginSlice.actions;
 
 export default loginSlice.reducer;
@@ -84,6 +92,19 @@ export const getTokenData = () => (dispatch, getState) => {
 
 export const logOut = () => (dispatch, getState) => {
     dispatch({type: 'login/loggedOut'});
+}
+
+export const clearData = () => (dispatch, getState) => {
+    dispatch({
+        type: dataCleared.type
+    });
+}
+
+export const setLoginData = (field, data) => (dispatch, getState) => {
+    dispatch({
+        type: dataSet.type,
+        payload: { field, data }
+    });
 }
 
 // Selectors
