@@ -114,6 +114,8 @@ EnhancedTableHead.propTypes = {
     orderBy: PropTypes.string.isRequired,
 };
 
+
+
 export default function DataTable({ category }) {
     // const rows = useSelector(state => state.entities.payments.list);
 
@@ -121,11 +123,11 @@ export default function DataTable({ category }) {
         {
             id: 1,
             type: 'Admin',
-            username: 'Thushan',
-            firstName: 'Thushan D.',
-            lastName: 'Fernando',
+            username: 'Hasindu',
+            firstName: 'Dilanka',
+            lastName: 'Mahanama',
             contactNo: '0716996901',
-            email: 'thushandfdo@gmail.com'
+            email: 'mahanama7722@gmail.com'
         },
         {
             id: 2,
@@ -139,8 +141,8 @@ export default function DataTable({ category }) {
         {
             id: 3,
             type: 'Customer',
-            username: 'Hasindu',
-            firstName: 'Thushan D.',
+            username: 'Hasini',
+            firstName: 'Hasini',
             lastName: 'Fernando',
             contactNo: '0716996901',
             email: 'thushandfdo@gmail.com'
@@ -188,6 +190,19 @@ export default function DataTable({ category }) {
     return (
         <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2, border: '1px solid black' }}>
+{/* import React from 'react';
+
+const DataTable = React.forwardRef((props, ref) => {
+  return (
+    <table ref={ref}>
+      // table content goes here
+    </table>
+  );
+});
+
+export default DataTable; */}
+
+
                 <TableContainer>
                     <Table>
                         <EnhancedTableHead
@@ -208,7 +223,7 @@ export default function DataTable({ category }) {
                                             <TableRow
                                                 hover
                                                 tabIndex={-1}
-                                                key={row.paymentId}
+                                                key={row.id}
                                             >
                                                 <TableCell align="center" sx={{ borderRight: '1px solid black' }} size='small'>{row.type}</TableCell>
                                                 <TableCell align="center" sx={{ borderRight: '1px solid black' }} size='small'>{row.username}</TableCell>
