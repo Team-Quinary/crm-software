@@ -119,7 +119,7 @@ EnhancedTableHead.propTypes = {
 export default function DataTable({ category }) {
     // const rows = useSelector(state => state.entities.payments.list);
 
-    const rows =[
+    const rows = [
         {
             id: 1,
             type: 'Admin',
@@ -190,17 +190,7 @@ export default function DataTable({ category }) {
     return (
         <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2, border: '1px solid black' }}>
-{/* import React from 'react';
 
-const DataTable = React.forwardRef((props, ref) => {
-  return (
-    <table ref={ref}>
-      // table content goes here
-    </table>
-  );
-});
-
-export default DataTable; */}
 
 
                 <TableContainer>
@@ -215,7 +205,7 @@ export default DataTable; */}
                                 ?
                                 stableSort(rows, getComparator(order, orderBy))
                                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                    .filter(row => 
+                                    .filter(row =>
                                         (category === 'All' || category === null) ? true : row.type.toLowerCase() === category.toLowerCase()
                                     )
                                     .map((row) => {
