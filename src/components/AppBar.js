@@ -212,6 +212,21 @@ export function AppBarBody() {
                         // onChange={(e) => store.dispatch(setCustomerData('email', e.target.value))}
                     />
 
+                    <TextField
+                        required
+                        fullWidth
+                        type='email'
+                        name='email'
+                        // value={email}
+                        label='Email'
+                        variant='standard'
+                        color='secondary'
+                        className={classes.field}
+                        // error={emailError}
+                        // helperText={emailError ? emailErrorMsg : null}
+                        // onChange={(e) => store.dispatch(setCustomerData('email', e.target.value))}
+                    />
+
                     <Stack direction='row' spacing={2} sx={{ mt: 3 }} justifyContent='right'>
                         <Button
                             variant='outlined'
