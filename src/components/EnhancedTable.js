@@ -14,7 +14,6 @@ import { visuallyHidden } from '@mui/utils';
 import { useSelector } from 'react-redux';
 import { useState } from 'react';
 import { Typography } from '@mui/material';
-import { useStyles } from '../Styles';
 
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -77,10 +76,11 @@ function EnhancedTableHead(props) {
     return (
         <TableHead>
             <TableRow>
-                {headCells.map((headCell) => (
+                {headCells.map((headCell, index) => (
                     <TableCell
                         key={headCell.id}
                         sortDirection={orderBy === headCell.id ? order : false}
+                        sx={{ borderRight: `${index !== headCells.length - 1 ? '1px solid black' : 'none'}`, borderBottom: '1px solid black' }}
                     >
                         <TableSortLabel
                             active={orderBy === headCell.id}
@@ -110,531 +110,15 @@ EnhancedTableHead.propTypes = {
     orderBy: PropTypes.string.isRequired,
 };
 
-export default function EnhancedTable() {
-    // const rows = useSelector(state => state.entities.payments.list);
-
-    const rows = [
-        {
-            paymentId: 1,
-            projectId: 8,
-            project: {
-                projectId: 8,
-                name: 'ABCD',
-                fee: 350000,
-                duration: 3,
-                startDate: '2023-04-08T18:30:00',
-                installments: 3,
-                status: 'Ongoing',
-                description: 'ABCDEFG',
-                customerId: 9,
-                techLeadId: 7
-            },
-            amount: 1000,
-            date: '2023-04-19T06:11:01.121',
-            stripeId: 'string'
-        },
-        {
-            paymentId: 1,
-            projectId: 8,
-            project: {
-                projectId: 8,
-                name: 'ABCD',
-                fee: 350000,
-                duration: 3,
-                startDate: '2023-04-08T18:30:00',
-                installments: 3,
-                status: 'Ongoing',
-                description: 'ABCDEFG',
-                customerId: 9,
-                techLeadId: 7
-            },
-            amount: 1000,
-            date: '2023-04-19T06:11:01.121',
-            stripeId: 'string'
-        },
-        {
-            paymentId: 1,
-            projectId: 8,
-            project: {
-                projectId: 8,
-                name: 'ABCD',
-                fee: 350000,
-                duration: 3,
-                startDate: '2023-04-08T18:30:00',
-                installments: 3,
-                status: 'Ongoing',
-                description: 'ABCDEFG',
-                customerId: 9,
-                techLeadId: 7
-            },
-            amount: 1000,
-            date: '2023-04-19T06:11:01.121',
-            stripeId: 'string'
-        },
-        {
-            paymentId: 1,
-            projectId: 8,
-            project: {
-                projectId: 8,
-                name: 'ABCD',
-                fee: 350000,
-                duration: 3,
-                startDate: '2023-04-08T18:30:00',
-                installments: 3,
-                status: 'Ongoing',
-                description: 'ABCDEFG',
-                customerId: 9,
-                techLeadId: 7
-            },
-            amount: 1000,
-            date: '2023-04-19T06:11:01.121',
-            stripeId: 'string'
-        },
-        {
-            paymentId: 1,
-            projectId: 8,
-            project: {
-                projectId: 8,
-                name: 'ABCD',
-                fee: 350000,
-                duration: 3,
-                startDate: '2023-04-08T18:30:00',
-                installments: 3,
-                status: 'Ongoing',
-                description: 'ABCDEFG',
-                customerId: 9,
-                techLeadId: 7
-            },
-            amount: 1000,
-            date: '2023-04-19T06:11:01.121',
-            stripeId: 'string'
-        },
-        {
-            paymentId: 1,
-            projectId: 8,
-            project: {
-                projectId: 8,
-                name: 'ABCD',
-                fee: 350000,
-                duration: 3,
-                startDate: '2023-04-08T18:30:00',
-                installments: 3,
-                status: 'Ongoing',
-                description: 'ABCDEFG',
-                customerId: 9,
-                techLeadId: 7
-            },
-            amount: 1000,
-            date: '2023-04-19T06:11:01.121',
-            stripeId: 'string'
-        },
-        {
-            paymentId: 1,
-            projectId: 8,
-            project: {
-                projectId: 8,
-                name: 'ABCD',
-                fee: 350000,
-                duration: 3,
-                startDate: '2023-04-08T18:30:00',
-                installments: 3,
-                status: 'Ongoing',
-                description: 'ABCDEFG',
-                customerId: 9,
-                techLeadId: 7
-            },
-            amount: 1000,
-            date: '2023-04-19T06:11:01.121',
-            stripeId: 'string'
-        },
-        {
-            paymentId: 1,
-            projectId: 8,
-            project: {
-                projectId: 8,
-                name: 'ABCD',
-                fee: 350000,
-                duration: 3,
-                startDate: '2023-04-08T18:30:00',
-                installments: 3,
-                status: 'Ongoing',
-                description: 'ABCDEFG',
-                customerId: 9,
-                techLeadId: 7
-            },
-            amount: 1000,
-            date: '2023-04-19T06:11:01.121',
-            stripeId: 'string'
-        },
-        {
-            paymentId: 1,
-            projectId: 8,
-            project: {
-                projectId: 8,
-                name: 'ABCD',
-                fee: 350000,
-                duration: 3,
-                startDate: '2023-04-08T18:30:00',
-                installments: 3,
-                status: 'Ongoing',
-                description: 'ABCDEFG',
-                customerId: 9,
-                techLeadId: 7
-            },
-            amount: 1000,
-            date: '2023-04-19T06:11:01.121',
-            stripeId: 'string'
-        },
-        {
-            paymentId: 1,
-            projectId: 8,
-            project: {
-                projectId: 8,
-                name: 'ABCD',
-                fee: 350000,
-                duration: 3,
-                startDate: '2023-04-08T18:30:00',
-                installments: 3,
-                status: 'Ongoing',
-                description: 'ABCDEFG',
-                customerId: 9,
-                techLeadId: 7
-            },
-            amount: 1000,
-            date: '2023-04-19T06:11:01.121',
-            stripeId: 'string'
-        },
-        {
-            paymentId: 1,
-            projectId: 8,
-            project: {
-                projectId: 8,
-                name: 'ABCD',
-                fee: 350000,
-                duration: 3,
-                startDate: '2023-04-08T18:30:00',
-                installments: 3,
-                status: 'Ongoing',
-                description: 'ABCDEFG',
-                customerId: 9,
-                techLeadId: 7
-            },
-            amount: 1000,
-            date: '2023-04-19T06:11:01.121',
-            stripeId: 'string'
-        },
-        {
-            paymentId: 1,
-            projectId: 8,
-            project: {
-                projectId: 8,
-                name: 'ABCD',
-                fee: 350000,
-                duration: 3,
-                startDate: '2023-04-08T18:30:00',
-                installments: 3,
-                status: 'Ongoing',
-                description: 'ABCDEFG',
-                customerId: 9,
-                techLeadId: 7
-            },
-            amount: 1000,
-            date: '2023-04-19T06:11:01.121',
-            stripeId: 'string'
-        },
-        {
-            paymentId: 1,
-            projectId: 8,
-            project: {
-                projectId: 8,
-                name: 'ABCD',
-                fee: 350000,
-                duration: 3,
-                startDate: '2023-04-08T18:30:00',
-                installments: 3,
-                status: 'Ongoing',
-                description: 'ABCDEFG',
-                customerId: 9,
-                techLeadId: 7
-            },
-            amount: 1000,
-            date: '2023-04-19T06:11:01.121',
-            stripeId: 'string'
-        },
-        {
-            paymentId: 1,
-            projectId: 8,
-            project: {
-                projectId: 8,
-                name: 'ABCD',
-                fee: 350000,
-                duration: 3,
-                startDate: '2023-04-08T18:30:00',
-                installments: 3,
-                status: 'Ongoing',
-                description: 'ABCDEFG',
-                customerId: 9,
-                techLeadId: 7
-            },
-            amount: 1000,
-            date: '2023-04-19T06:11:01.121',
-            stripeId: 'string'
-        },
-        {
-            paymentId: 1,
-            projectId: 8,
-            project: {
-                projectId: 8,
-                name: 'ABCD',
-                fee: 350000,
-                duration: 3,
-                startDate: '2023-04-08T18:30:00',
-                installments: 3,
-                status: 'Ongoing',
-                description: 'ABCDEFG',
-                customerId: 9,
-                techLeadId: 7
-            },
-            amount: 1000,
-            date: '2023-04-19T06:11:01.121',
-            stripeId: 'string'
-        },
-        {
-            paymentId: 1,
-            projectId: 8,
-            project: {
-                projectId: 8,
-                name: 'ABCD',
-                fee: 350000,
-                duration: 3,
-                startDate: '2023-04-08T18:30:00',
-                installments: 3,
-                status: 'Ongoing',
-                description: 'ABCDEFG',
-                customerId: 9,
-                techLeadId: 7
-            },
-            amount: 1000,
-            date: '2023-04-19T06:11:01.121',
-            stripeId: 'string'
-        },
-        {
-            paymentId: 1,
-            projectId: 8,
-            project: {
-                projectId: 8,
-                name: 'ABCD',
-                fee: 350000,
-                duration: 3,
-                startDate: '2023-04-08T18:30:00',
-                installments: 3,
-                status: 'Ongoing',
-                description: 'ABCDEFG',
-                customerId: 9,
-                techLeadId: 7
-            },
-            amount: 1000,
-            date: '2023-04-19T06:11:01.121',
-            stripeId: 'string'
-        },
-        {
-            paymentId: 1,
-            projectId: 8,
-            project: {
-                projectId: 8,
-                name: 'ABCD',
-                fee: 350000,
-                duration: 3,
-                startDate: '2023-04-08T18:30:00',
-                installments: 3,
-                status: 'Ongoing',
-                description: 'ABCDEFG',
-                customerId: 9,
-                techLeadId: 7
-            },
-            amount: 1000,
-            date: '2023-04-19T06:11:01.121',
-            stripeId: 'string'
-        },
-        {
-            paymentId: 1,
-            projectId: 8,
-            project: {
-                projectId: 8,
-                name: 'ABCD',
-                fee: 350000,
-                duration: 3,
-                startDate: '2023-04-08T18:30:00',
-                installments: 3,
-                status: 'Ongoing',
-                description: 'ABCDEFG',
-                customerId: 9,
-                techLeadId: 7
-            },
-            amount: 1000,
-            date: '2023-04-19T06:11:01.121',
-            stripeId: 'string'
-        },
-        {
-            paymentId: 1,
-            projectId: 8,
-            project: {
-                projectId: 8,
-                name: 'ABCD',
-                fee: 350000,
-                duration: 3,
-                startDate: '2023-04-08T18:30:00',
-                installments: 3,
-                status: 'Ongoing',
-                description: 'ABCDEFG',
-                customerId: 9,
-                techLeadId: 7
-            },
-            amount: 1000,
-            date: '2023-04-19T06:11:01.121',
-            stripeId: 'string'
-        },
-        {
-            paymentId: 1,
-            projectId: 8,
-            project: {
-                projectId: 8,
-                name: 'ABCD',
-                fee: 350000,
-                duration: 3,
-                startDate: '2023-04-08T18:30:00',
-                installments: 3,
-                status: 'Ongoing',
-                description: 'ABCDEFG',
-                customerId: 9,
-                techLeadId: 7
-            },
-            amount: 1000,
-            date: '2023-04-19T06:11:01.121',
-            stripeId: 'string'
-        },
-        {
-            paymentId: 1,
-            projectId: 8,
-            project: {
-                projectId: 8,
-                name: 'ABCD',
-                fee: 350000,
-                duration: 3,
-                startDate: '2023-04-08T18:30:00',
-                installments: 3,
-                status: 'Ongoing',
-                description: 'ABCDEFG',
-                customerId: 9,
-                techLeadId: 7
-            },
-            amount: 1000,
-            date: '2023-04-19T06:11:01.121',
-            stripeId: 'string'
-        },
-        {
-            paymentId: 1,
-            projectId: 8,
-            project: {
-                projectId: 8,
-                name: 'ABCD',
-                fee: 350000,
-                duration: 3,
-                startDate: '2023-04-08T18:30:00',
-                installments: 3,
-                status: 'Ongoing',
-                description: 'ABCDEFG',
-                customerId: 9,
-                techLeadId: 7
-            },
-            amount: 1000,
-            date: '2023-04-19T06:11:01.121',
-            stripeId: 'string'
-        },
-        {
-            paymentId: 1,
-            projectId: 8,
-            project: {
-                projectId: 8,
-                name: 'ABCD',
-                fee: 350000,
-                duration: 3,
-                startDate: '2023-04-08T18:30:00',
-                installments: 3,
-                status: 'Ongoing',
-                description: 'ABCDEFG',
-                customerId: 9,
-                techLeadId: 7
-            },
-            amount: 1000,
-            date: '2023-04-19T06:11:01.121',
-            stripeId: 'string'
-        },
-        {
-            paymentId: 1,
-            projectId: 8,
-            project: {
-                projectId: 8,
-                name: 'ABCD',
-                fee: 350000,
-                duration: 3,
-                startDate: '2023-04-08T18:30:00',
-                installments: 3,
-                status: 'Ongoing',
-                description: 'ABCDEFG',
-                customerId: 9,
-                techLeadId: 7
-            },
-            amount: 1000,
-            date: '2023-04-19T06:11:01.121',
-            stripeId: 'string'
-        },
-        {
-            paymentId: 1,
-            projectId: 8,
-            project: {
-                projectId: 8,
-                name: 'ABCD',
-                fee: 350000,
-                duration: 3,
-                startDate: '2023-04-08T18:30:00',
-                installments: 3,
-                status: 'Ongoing',
-                description: 'ABCDEFG',
-                customerId: 9,
-                techLeadId: 7
-            },
-            amount: 1000,
-            date: '2023-04-19T06:11:01.121',
-            stripeId: 'string'
-        },
-        {
-            paymentId: 1,
-            projectId: 8,
-            project: {
-                projectId: 8,
-                name: 'ABCD',
-                fee: 350000,
-                duration: 3,
-                startDate: '2023-04-08T18:30:00',
-                installments: 3,
-                status: 'Ongoing',
-                description: 'ABCDEFG',
-                customerId: 9,
-                techLeadId: 7
-            },
-            amount: 1000,
-            date: '2023-04-19T06:11:01.121',
-            stripeId: 'string'
-        },
-    ];
-
-    const { classes } = useStyles();
+export default function EnhancedTable({ search }) {
+    const rows = useSelector(state => state.entities.payments.list);
 
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState('date');
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
+
+    const category = useSelector(state => state.entities.payments.variables.category);
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';
@@ -657,33 +141,47 @@ export default function EnhancedTable() {
 
     return (
         <Box sx={{ width: '100%' }}>
-            <Paper sx={{ width: '100%', mb: 2 }}>
+            <Paper sx={{ width: '100%', mb: 2, border: '1px solid black' }}>
                 <TableContainer>
-                    <Table
-                        sx={{ minWidth: 750 }}
-                    >
+                    <Table>
                         <EnhancedTableHead
                             order={order}
                             orderBy={orderBy}
                             onRequestSort={handleRequestSort}
                         />
-                        <TableBody className={classes.paymentTable}>
-                            {stableSort(rows, getComparator(order, orderBy))
-                                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                .map((row, index) => {
-                                    return (
-                                        <TableRow
-                                            hover
-                                            tabIndex={-1}
-                                            key={index}
-                                        >
-                                            <TableCell align="center" sx={{ borderRight: '1px solid black' }}>{row.project.name}</TableCell>
-                                            <TableCell align="center" sx={{ borderRight: '1px solid black' }}>{row.project.customerId}</TableCell>
-                                            <TableCell align="center" sx={{ borderRight: '1px solid black' }}>{row.amount}</TableCell>
-                                            <TableCell align="center" sx={{}}>{formatDate(row.date)}</TableCell>
-                                        </TableRow>
-                                    );
-                                })}
+                        <TableBody>
+                            {rows.length > 0
+                                ?
+                                stableSort(rows, getComparator(order, orderBy))
+                                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                    .filter(row =>
+                                        (category === 'Project')
+                                            ? row.project.name.toLowerCase().includes(search.toLowerCase())
+                                            : (category === 'Customer')
+                                                ? row.project.customer.company.toLowerCase().includes(search.toLowerCase())
+                                                : (category === 'Date')
+                                                    ? row.date.toString().includes(search.toLowerCase())
+                                                    : true
+                                    )
+                                    .map((row) => {
+                                        return (
+                                            <TableRow
+                                                hover
+                                                tabIndex={-1}
+                                                key={row.paymentId}
+                                            >
+                                                <TableCell align="center" sx={{ borderRight: '1px solid black' }} size='small'>{row.project.name}</TableCell>
+                                                <TableCell align="center" sx={{ borderRight: '1px solid black' }} size='small'>{row.project.customer.company}</TableCell>
+                                                <TableCell align="center" sx={{ borderRight: '1px solid black' }} size='small'>{row.amount}</TableCell>
+                                                <TableCell align="center" sx={{}} size='small'>{formatDate(row.date)}</TableCell>
+                                            </TableRow>
+                                        );
+                                    })
+                                :
+                                <TableRow tabIndex={-1}>
+                                    <TableCell align="center" colSpan={4} sx={{ color: 'gray', fontSize: '18px' }}>Table is empty...!</TableCell>
+                                </TableRow>
+                            }
                         </TableBody>
                     </Table>
                 </TableContainer>
@@ -695,6 +193,7 @@ export default function EnhancedTable() {
                     page={page}
                     onPageChange={handleChangePage}
                     onRowsPerPageChange={handleChangeRowsPerPage}
+                    sx={{ borderTop: '1px solid black' }}
                 />
             </Paper>
         </Box>

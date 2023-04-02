@@ -1,5 +1,5 @@
 {
-  "name": "crm-front-test",
+  "name": "crm-software",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -7,6 +7,7 @@
     "@emotion/styled": "^11.10.5",
     "@mui/icons-material": "^5.11.0",
     "@mui/material": "^5.11.7",
+    "@mui/x-data-grid": "^6.0.3",
     "@mui/x-date-pickers": "^5.0.20",
     "@reduxjs/toolkit": "^1.9.3",
     "@stripe/react-stripe-js": "^2.0.0",
@@ -16,10 +17,13 @@
     "@testing-library/user-event": "^13.5.0",
     "@wcj/generate-password": "^1.0.3",
     "axios": "^1.3.1",
+    "bootstrap": "^5.2.3",
     "clsx": "^1.2.1",
     "dayjs": "^1.11.7",
     "react": "^18.2.0",
+    "react-bootstrap": "^2.7.2",
     "react-dom": "^18.2.0",
+    "react-feather": "^2.0.10",
     "react-hook-form": "^7.43.2",
     "react-masonry-css": "^1.0.16",
     "react-redux": "^8.0.5",

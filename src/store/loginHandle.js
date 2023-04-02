@@ -3,18 +3,19 @@ import { createSelector } from "reselect";
 import { apiCallBegan } from "./middleware/api";
 import { ENDPOINTS } from "./middleware/api";
 
+const initialUser = {
+    userId: null,
+    username: '',
+    name: 'User',
+    role: 'unknown',
+    pic: '-'
+};
+
 export const loginSlice = createSlice({
     name: 'login',
     initialState: {
-        log: 0,
         token: null,
-        currentUser: {
-            userId: null,
-            username: '',
-            name: 'User',
-            role: 'unknown',
-            pic: '-'
-        }
+        currentUser: initialUser
     },
     reducers: {
         loggedIn: (state, action) => {
@@ -32,12 +33,9 @@ export const loginSlice = createSlice({
                 state.currentUser.pic = `data:image/png;base64,${content.fileContents}`;
             }
         },
-        loggedSet: (state, action) => {
-            state.log++;
-        },
         loggedOut: (state, action) => {
-            state.log = 0;
             state.token = null;
+            state.currentUser = initialUser;
         }
     }
 })
@@ -45,7 +43,6 @@ export const loginSlice = createSlice({
 const {
     loggedIn,
     gotTokenData,
-    loggedOut
 } = loginSlice.actions;
 
 export default loginSlice.reducer;
@@ -83,10 +80,6 @@ export const getTokenData = () => (dispatch, getState) => {
 
 export const logOut = () => (dispatch, getState) => {
     dispatch({type: 'login/loggedOut'});
-}
-
-export const setLog = () => (dispatch, getState) => {
-    dispatch({type: 'login/setLog'});
 }
 
 // Selectors
