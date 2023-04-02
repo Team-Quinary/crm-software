@@ -58,7 +58,7 @@ function App() {
                     <Route path='/newsletters' element={<Newsletters />} />
                     <Route path='/payments' element={<Payments />} />
                     <Route path='/*' element={<Test />} />
-                    <Route path='/reports' element={<Report/>} /></Route>
+                    <Route path='/reports' element={<Report/>} />
                     <Route path='/feedbackDashboard' element={<FeedbackDashboard/>}/>
                 </Route>
             </>
