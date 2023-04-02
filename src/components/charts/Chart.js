@@ -9,6 +9,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import AnswerTable from './AnswerTable';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -30,11 +31,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     },
 }));
 
-function createData(
-    name: string,
-    calories: number,
-
-) {
+function createData(name, calories) {
     return { name, calories };
 }
 
@@ -46,11 +43,9 @@ const rows = [
     createData('Guidance Feedback Form', 5),
     createData('Encouragement Feedback Form', 6),
     createData('Forward Feedback Form', 7),
-
-
 ];
 
-export default function Chart({title,grid}) {
+export default function Chart({ title, grid }) {
     const testData = [
         {
             id: 1,
@@ -94,67 +89,68 @@ export default function Chart({title,grid}) {
         },
     ];
 
-
-
     return (
-        <div className='analysis'>
-            <div className='analysiscol'>
-                <TableContainer component={Paper}>
-                    <Table sx={{ minWidth: 300 }} aria-label="customized table">
-                        <TableHead>
-                            <TableRow>
-                                <StyledTableCell>Feedback From Type</StyledTableCell>
-                                <StyledTableCell align="right">ID</StyledTableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {rows.map((row) => (
-                                <StyledTableRow key={row.name}>
-                                    <StyledTableCell component="th" scope="row">
-                                        {row.name}
-                                    </StyledTableCell>
-                                    <StyledTableCell align="right">{row.calories}</StyledTableCell>
-                                </StyledTableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-            </div>
+        <div>
+            <div className='analysis'>
+                <div className='analysiscol'>
+                    <TableContainer component={Paper}>
+                        <Table sx={{ minWidth: 300 }} aria-label="customized table">
+                            <TableHead>
+                                <TableRow>
+                                    <StyledTableCell>Feedback From Type</StyledTableCell>
+                                    <StyledTableCell align="right">ID</StyledTableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {rows.map((row) => (
+                                    <StyledTableRow key={row.name}>
+                                        <StyledTableCell component="th" scope="row">
+                                            {row.name}
+                                        </StyledTableCell>
+                                        <StyledTableCell align="right">{row.calories}</StyledTableCell>
+                                    </StyledTableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </div>
 
-            <div className='analysiscol2'>
-                <h3 className='charttitle'>{title}</h3>
-                <ResponsiveContainer width="50%" aspect={1 / 1}>
-                    <BarChart data={testData}>
-                        <XAxis dataKey="rate" stroke="black" />
-                        <YAxis />
-                        <Line type="monotone" dataKey="rates" stroke="green" />
-                        {grid && <CartesianGrid stroke="#e0dfdf" strokeDasharray="5 5" />}
-                        <Tooltip />
-                        <Legend />
-                        <Bar dataKey="rates" fill="#000" />
-                    </BarChart>
-                </ResponsiveContainer>
-            </div>
+                <div className='analys-elements'>
+                    <div className='analysiscol2'>
+                        <h3 className='charttitle'>{title}</h3>
+                        <ResponsiveContainer width="100%" aspect={2 / 1}>
+                            <BarChart data={testData}>
+                                <XAxis dataKey="rate" stroke="black" />
+                                <YAxis />
+                                <Line type="monotone" dataKey="rates" stroke="green" />
+                                {grid && <CartesianGrid stroke="#e0dfdf" strokeDasharray="5 5" />}
+                                <Tooltip />
+                                <Legend />
+                                <Bar dataKey="rates" fill="#000" />
+                            </BarChart>
+                        </ResponsiveContainer>
+                    </div>
 
-            <div className='analysiscol2'>
-                <h3 className='charttitle'>{title}</h3>
-                <ResponsiveContainer width="50%" aspect={1 / 1}>
-                    <BarChart data={testData}>
-                        <XAxis dataKey="rate" stroke="black" />
-                        <YAxis />
-                        <Line type="monotone" dataKey="rates" stroke="green" />
-                        {grid && <CartesianGrid stroke="#25e6a2" strokeDasharray="5 5" />}
-                        <Tooltip />
-                        <Legend />
-                        <Bar dataKey="rates" fill="#000" />
-                    </BarChart>
-                </ResponsiveContainer>
+                    <div className='analysiscol2'>
+                        <h3 className='charttitle'>{title}</h3>
+                        <ResponsiveContainer width="100%" aspect={2 / 1}>
+                            <BarChart data={testData}>
+                                <XAxis dataKey="rate" stroke="black" />
+                                <YAxis />
+                                <Line type="monotone" dataKey="rates" stroke="green" />
+                                {grid && <CartesianGrid stroke="#25e6a2" strokeDasharray="5 5" />}
+                                <Tooltip />
+                                <Legend />
+                                <Bar dataKey="rates" fill="#000" />
+                            </BarChart>
+                        </ResponsiveContainer>
+                    </div>
 
-            </div>
-            <div className='questiontable'>
-
+                    <div className='questiontable'>
+                        <AnswerTable />
+                    </div>
+                </div>
             </div>
         </div>
-
     )
 }
