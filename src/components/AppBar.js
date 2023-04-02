@@ -33,9 +33,28 @@ export function AppBarBody() {
     const usernameRef = useRef(null);
     const navigate = useNavigate();
 
-    const name = useSelector(state => state.login.currentUser.name);
+    const firstName = useSelector(state => state.login.currentUser.firstName);
+    const lastName = useSelector(state => state.login.currentUser.lastName);
+    const email = useSelector(state => state.login.currentUser.email);
     const role = useSelector(state => state.login.currentUser.role);
     const profilePic = useSelector(state => state.login.currentUser.pic);
+
+    const [firstNameError, setFirstNameError] = useState(false);
+    var fError = false;
+
+    const [lastNameError, setLastNameError] = useState(false);
+    var lError = false;
+
+    const [emailError, setEmailError] = useState(false);
+    var eError = false;
+
+    const [passwordError, setPasswordError] = useState(false);
+    var pError = false;
+
+    const [confirmPasswordError, setConfirmPasswordError] = useState(false);
+    var cpError = false;
+
+    const name = (firstName || 'unknown') + ' ' + (lastName || 'user');
 
     useEffect(() => {
         setUserWidth(usernameRef.current.clientWidth);
