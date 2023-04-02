@@ -15,12 +15,21 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import store from '../store/_storeConfig';
 import { logOut } from '../store/loginHandle';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import TextField from '@mui/material/TextField';
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
 
 export function AppBarBody() {
+    const { classes } = useStyles();
+
     const [anchorElUser, setAnchorElUser] = useState(null);
     const [drop, setDrop] = useState(false);
     const [userWidth, setUserWidth] = useState(0);
-    const { classes } = useStyles();
+    const [editProfileOpen, setEditProfileOpen] = useState(false);
+
     const usernameRef = useRef(null);
     const navigate = useNavigate();
 
@@ -29,8 +38,6 @@ export function AppBarBody() {
     const profilePic = useSelector(state => state.login.currentUser.pic);
 
     useEffect(() => {
-        // let width = usernameRef.current.clientWidth;
-        // setUserWidth(width > 150 ? width : 150);
         setUserWidth(usernameRef.current.clientWidth);
     }, [name]);
 
@@ -44,18 +51,11 @@ export function AppBarBody() {
         setDrop(!drop);
     };
 
-    const userMenuItems = [
-        {
-            text: "Edit Profile",
-            icon: <AccountCircleIcon fontSize='small' />,
-            path: '/edit-profile'
-        },
-        {
-            text: "Log out",
-            icon: <LogoutOutlinedIcon fontSize='small' />,
-            path: '/'
-        }
-    ]
+    const handleDialogClose = () => {
+        // store.dispatch(setCustomerData('open', !open));
+        // handleClear();
+        setEditProfileOpen(false);
+    };
 
     return (
         <Toolbar className={classes.toolbar}>
@@ -95,18 +95,25 @@ export function AppBarBody() {
                         <Typography className={classes.userType}>{role}</Typography>
                     </MenuItem>
                     <Divider />
-                    {userMenuItems.map(item => (
-                        <MenuItem key={item.text} onClick={() => {
-                            setDrop(!drop);
-                            if (item.text === 'Log out') store.dispatch(logOut());
-                            navigate(item.path);
-                        }}>
-                            <ListItemIcon>
-                                {item.icon}
-                            </ListItemIcon>
-                            <ListItemText>{item.text}</ListItemText>
-                        </MenuItem>
-                    ))}
+                    <MenuItem onClick={() => {
+                        setDrop(!drop);
+                        setEditProfileOpen(true);
+                    }}>
+                        <ListItemIcon>
+                            <AccountCircleIcon fontSize='small' />
+                        </ListItemIcon>
+                        <ListItemText>Edit Profil</ListItemText>
+                    </MenuItem>
+                    <MenuItem onClick={() => {
+                        setDrop(!drop);
+                        store.dispatch(logOut());
+                        navigate('/');
+                    }}>
+                        <ListItemIcon>
+                            <LogoutOutlinedIcon fontSize='small' />
+                        </ListItemIcon>
+                        <ListItemText>Log out</ListItemText>
+                    </MenuItem>
                 </Menu>
             </div>
             {profilePic === '-'
@@ -114,11 +121,136 @@ export function AppBarBody() {
                 <Avatar className={classes.avatar}>
                     {name[0].toUpperCase()}
                 </Avatar>
-                : 
+                :
                 <Avatar className={classes.avatar}
                     src={profilePic}
                 />
             }
+            <Dialog
+                open={editProfileOpen}
+                onClose={handleDialogClose}
+                fullWidth={true}
+                maxWidth='md'
+            >
+                <DialogTitle>
+                    Edit your profile
+                </DialogTitle>
+                <Divider />
+                <DialogContent>
+                    <TextField
+                        autoFocus
+                        required
+                        fullWidth
+                        type='text'
+                        name='company'
+                        // value={company}
+                        label='Username'
+                        variant='standard'
+                        color='secondary'
+                        // error={companyError}
+                        // helperText={companyError ? companyErrorMsg : null}
+                        // onChange={(e) => store.dispatch(setCustomerData('company', e.target.value))}
+                    />
+
+                    <TextField
+                        required
+                        fullWidth
+                        type='password'
+                        name='contact-person'
+                        // value={contactPerson}
+                        label='Password'
+                        variant='standard'
+                        color='secondary'
+                        className={classes.field}
+                        // error={contactPersonError}
+                        // helperText={contactPersonError ? "Can not be Empty" : null}
+                        // onChange={(e) => store.dispatch(setCustomerData('contactPerson', e.target.value))}
+                    />
+
+                    <TextField
+                        required
+                        fullWidth
+                        type='password'
+                        name='contact-person'
+                        // value={contactPerson}
+                        label='Confirm Password'
+                        variant='standard'
+                        color='secondary'
+                        className={classes.field}
+                        // error={contactPersonError}
+                        // helperText={contactPersonError ? "Can not be Empty" : null}
+                        // onChange={(e) => store.dispatch(setCustomerData('contactPerson', e.target.value))}
+                    />
+
+                    <TextField
+                        required
+                        fullWidth
+                        type='text'
+                        name='contactNo'
+                        // value={contactNo}
+                        label='First Name'
+                        variant='standard'
+                        color='secondary'
+                        className={classes.field}
+                        // error={contactError}
+                        // helperText={contactError ? "Can not be Empty" : null}
+                        // onChange={(e) => store.dispatch(setCustomerData('contactNo', e.target.value))}
+                    />
+
+                    <TextField
+                        required
+                        fullWidth
+                        type='text'
+                        name='email'
+                        // value={email}
+                        label='Last Name'
+                        variant='standard'
+                        color='secondary'
+                        className={classes.field}
+                        // error={emailError}
+                        // helperText={emailError ? emailErrorMsg : null}
+                        // onChange={(e) => store.dispatch(setCustomerData('email', e.target.value))}
+                    />
+
+                    <TextField
+                        required
+                        fullWidth
+                        type='email'
+                        name='email'
+                        // value={email}
+                        label='Email'
+                        variant='standard'
+                        color='secondary'
+                        className={classes.field}
+                        // error={emailError}
+                        // helperText={emailError ? emailErrorMsg : null}
+                        // onChange={(e) => store.dispatch(setCustomerData('email', e.target.value))}
+                    />
+
+                    <Stack direction='row' spacing={2} sx={{ mt: 3 }} justifyContent='right'>
+                        <Button
+                            variant='outlined'
+                            onClick={handleDialogClose}
+                        >
+                            Cancel
+                        </Button>
+
+                        <Button
+                            variant='outlined'
+                            // onClick={handleClear}
+                        >
+                            Clear
+                        </Button>
+
+                        <Button
+                            variant='contained'
+                            // onClick={handleUpdate}
+                        >
+                            Save Changes
+                        </Button>
+                    </Stack>
+                </DialogContent>
+            </Dialog>
         </Toolbar>
     )
 }
