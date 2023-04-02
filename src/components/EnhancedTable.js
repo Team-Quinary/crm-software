@@ -149,15 +149,16 @@ export default function EnhancedTable({ search }) {
                             orderBy={orderBy}
                             onRequestSort={handleRequestSort}
                         />
-                        {rows.length > 0 ?
-                            <TableBody>
-                                {stableSort(rows, getComparator(order, orderBy))
+                        <TableBody>
+                            {rows.length > 0
+                                ?
+                                stableSort(rows, getComparator(order, orderBy))
                                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                     .filter(row =>
-                                        (category === 'Project') ?
-                                            row.project.name.toLowerCase().includes(search.toLowerCase())
+                                        (category === 'Project')
+                                            ? row.project.name.toLowerCase().includes(search.toLowerCase())
                                             : (category === 'Customer')
-                                                ? row.project.customerId.toString().includes(search.toLowerCase())
+                                                ? row.project.customer.company.toLowerCase().includes(search.toLowerCase())
                                                 : (category === 'Date')
                                                     ? row.date.toString().includes(search.toLowerCase())
                                                     : true
@@ -175,11 +176,13 @@ export default function EnhancedTable({ search }) {
                                                 <TableCell align="center" sx={{}} size='small'>{formatDate(row.date)}</TableCell>
                                             </TableRow>
                                         );
-                                    })}
-                            </TableBody>
-                        :
-                        <span sx={{ padding: '16px', color: 'gray' }}>Table is empty...!</span>
-                        }
+                                    })
+                                :
+                                <TableRow tabIndex={-1}>
+                                    <TableCell align="center" colSpan={4} sx={{ color: 'gray', fontSize: '18px' }}>Table is empty...!</TableCell>
+                                </TableRow>
+                            }
+                        </TableBody>
                     </Table>
                 </TableContainer>
                 <TablePagination

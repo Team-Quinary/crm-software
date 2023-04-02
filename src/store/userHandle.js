@@ -12,7 +12,6 @@ const initialVars = {
     contactNo: '',
     email: '',
     username: '',
-    password: '',
     category: 'name',
     sortField: 'all',
     descending: 1,

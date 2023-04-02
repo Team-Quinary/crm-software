@@ -9,7 +9,6 @@ const initialVars = {
     contactNo: '',
     email: '',
     username: '',
-    password: '',
     category: 'company',
     sortField: 'company',
     descending: 1,

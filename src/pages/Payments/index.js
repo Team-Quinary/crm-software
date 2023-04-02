@@ -43,8 +43,10 @@ export default function Payments() {
     } = useSelector(state => state.entities.payments.variables);
 
     useEffect(() => {
-        store.dispatch(getClientSecret({ items: [{ id: "xl-tshirt" }] }));
-    }, []);
+        if (project) {
+            store.dispatch(getClientSecret(project.projectId));
+        }
+    }, [project]);
 
     const appearance = {
         theme: 'stripe',
@@ -119,7 +121,7 @@ export default function Payments() {
                             value={project}
                             onChange={(event, value) => {
                                 store.dispatch(setPaymentData('project', value));
-                                (value !== null && value !== undefined) && store.dispatch(loadProjectDetails(8))
+                                (value !== null && value !== undefined) && store.dispatch(loadProjectDetails(value.projectId))
                             }}
                             renderInput={({ inputProps, ...rest }) =>
                                 <TextField {...rest}
@@ -148,13 +150,13 @@ export default function Payments() {
                             <Typography color='gray' className={classes.paymentDetailField}>: {nextInstallment}</Typography>
 
                             <Typography className={classes.paymentDetailField}>Due Date</Typography>
-                            <Typography color='gray' className={classes.paymentDetailField}>: {dueDate}</Typography>
+                            <Typography color='gray' className={classes.paymentDetailField}>: {(paybleAmount <= 0) ? '-' : dueDate}</Typography>
 
                             <Typography className={classes.paymentDetailField}>Last Payment</Typography>
                             <Typography color='gray'>: {lastPayment}</Typography>
                             
                             <Typography>Payment Date</Typography>
-                            <Typography color='gray'>: {lastPaymentDate}</Typography>
+                            <Typography color='gray'>: {lastPaymentDate === '1-01-01' ? '-' : lastPaymentDate}</Typography>
                         </div>
                     </div>
 
@@ -162,6 +164,7 @@ export default function Payments() {
                         fullWidth
                         variant='contained'
                         onClick={() => setOpen(!open)}
+                        disabled={project === null || nextInstallment <= 0}
                     >
                         Pay Next Installment
                     </Button>
@@ -184,7 +187,7 @@ export default function Payments() {
 
                         {clientSecret && (
                             <Elements options={options} stripe={stripePromise}>
-                                <Checkout />
+                                <Checkout clientSecret={clientSecret} setOpen={setOpen} />
                             </Elements>
                         )}
                     </DialogContent>

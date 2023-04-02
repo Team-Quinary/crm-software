@@ -5,44 +5,39 @@ import {
     useElements
 } from "@stripe/react-stripe-js";
 import store from "../../store/_storeConfig";
-import { addPayment, setPaymentData } from "../../store/paymentHandle";
+import { addPayment, clearData, setPaymentData } from "../../store/paymentHandle";
+import { useSelector } from "react-redux";
 
-export default function Checkout() {
+export default function Checkout({ clientSecret, setOpen }) {
+    const project = useSelector(state => state.entities.payments.variables.project);
+    const [isLoading, setIsLoading] = useState(false);
+
     const stripe = useStripe();
     const elements = useElements();
-
-    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         if (!stripe) {
             return;
         }
 
-        const clientSecret = new URLSearchParams(window.location.search).get(
-            "payment_intent_client_secret"
-        );
-
         if (!clientSecret) {
             return;
         }
 
         stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
-            if (paymentIntent.status === 'succeeded') {
-                store.dispatch(setPaymentData('message', "Payment succeeded!"));
-                store.dispatch(addPayment(1, clientSecret));
-            }
-            else {
-                switch (paymentIntent.status) {
-                    case "processing":
-                        store.dispatch(setPaymentData('message', "Your payment is processing."));
-                        break;
-                    case "requires_payment_method":
-                        store.dispatch(setPaymentData('message', "Your payment was not successful, please try again."));
-                        break;
-                    default:
-                        store.dispatch(setPaymentData('message', "Something went wrong."));
-                        break;
-                }
+            switch (paymentIntent.status) {
+                case "succeeded":
+                    store.dispatch(setPaymentData('message', "Payment succeeded!"));
+                    break;
+                case "processing":
+                    store.dispatch(setPaymentData('message', "Your payment is processing."));
+                    break;
+                case "requires_payment_method":
+                    store.dispatch(setPaymentData('message', "Enter Card details..."));
+                    break;
+                default:
+                    store.dispatch(setPaymentData('message', "Something went wrong."));
+                    break;
             }
         });
     }, [stripe]);
@@ -56,18 +51,23 @@ export default function Checkout() {
 
         setIsLoading(true);
 
-        const { error } = await stripe.confirmPayment({
-            elements,
-            confirmParams: {
-                return_url: "http://localhost:3000/payments",
-            },
-        });
+        console.log(typeof clientSecret);
+        console.log(clientSecret);
+
+        const { error } = await stripe.confirmCardPayment(
+            clientSecret
+        );
 
         if (error.type === "card_error" || error.type === "validation_error") {
             store.dispatch(setPaymentData('message', error.message));
-        } else {
-            store.dispatch(setPaymentData('message', "An unexpected error occurred."));
+            setIsLoading(false);
+            return;
         }
+
+        store.dispatch(addPayment(project.projectId, clientSecret));
+        store.dispatch(clearData());
+        store.dispatch(setPaymentData('message', 'Payment recorded successfully!'));
+        setOpen(false);
 
         setIsLoading(false);
     };
