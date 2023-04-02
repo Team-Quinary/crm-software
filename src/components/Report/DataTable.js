@@ -117,55 +117,55 @@ EnhancedTableHead.propTypes = {
 
 
 export default function DataTable({ category }) {
-    // const rows = useSelector(state => state.entities.payments.list);
+    const rows = useSelector(state => state.entities.users.list);
 
-    const rows = [
-        {
-            id: 1,
-            type: 'Admin',
-            username: 'Hasindu',
-            firstName: 'Dilanka',
-            lastName: 'Mahanama',
-            contactNo: '0716996901',
-            email: 'mahanama7722@gmail.com'
-        },
-        {
-            id: 2,
-            type: 'Admin',
-            username: 'Thushan',
-            firstName: 'Thushan D.',
-            lastName: 'Fernando',
-            contactNo: '0716996901',
-            email: 'thushandfdo@gmail.com'
-        },
-        {
-            id: 3,
-            type: 'Customer',
-            username: 'Hasini',
-            firstName: 'Hasini',
-            lastName: 'Fernando',
-            contactNo: '0716996901',
-            email: 'thushandfdo@gmail.com'
-        },
-        {
-            id: 4,
-            type: 'Tech Lead',
-            username: 'Thushan',
-            firstName: 'Thushan D.',
-            lastName: 'Fernando',
-            contactNo: '0716996901',
-            email: 'thushandfdo@gmail.com'
-        },
-        {
-            id: 5,
-            type: 'Customer',
-            username: 'Hasindu',
-            firstName: 'Thushan D.',
-            lastName: 'Fernando',
-            contactNo: '0716996901',
-            email: 'thushandfdo@gmail.com'
-        },
-    ];
+    // const rows = [
+    //     {
+    //         id: 1,
+    //         type: 'Admin',
+    //         username: 'Hasindu',
+    //         firstName: 'Dilanka',
+    //         lastName: 'Mahanama',
+    //         contactNo: '0716996901',
+    //         email: 'mahanama7722@gmail.com'
+    //     },
+    //     {
+    //         id: 2,
+    //         type: 'Admin',
+    //         username: 'Thushan',
+    //         firstName: 'Thushan D.',
+    //         lastName: 'Fernando',
+    //         contactNo: '0716996901',
+    //         email: 'thushandfdo@gmail.com'
+    //     },
+    //     {
+    //         id: 3,
+    //         type: 'Customer',
+    //         username: 'Hasini',
+    //         firstName: 'Hasini',
+    //         lastName: 'Fernando',
+    //         contactNo: '0716996901',
+    //         email: 'thushandfdo@gmail.com'
+    //     },
+    //     {
+    //         id: 4,
+    //         type: 'Tech Lead',
+    //         username: 'Thushan',
+    //         firstName: 'Thushan D.',
+    //         lastName: 'Fernando',
+    //         contactNo: '0716996901',
+    //         email: 'thushandfdo@gmail.com'
+    //     },
+    //     {
+    //         id: 5,
+    //         type: 'Customer',
+    //         username: 'Hasindu',
+    //         firstName: 'Thushan D.',
+    //         lastName: 'Fernando',
+    //         contactNo: '0716996901',
+    //         email: 'thushandfdo@gmail.com'
+    //     },
+    // ];
 
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState('date');
@@ -190,8 +190,6 @@ export default function DataTable({ category }) {
     return (
         <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2, border: '1px solid black' }}>
-
-
 
                 <TableContainer>
                     <Table>
