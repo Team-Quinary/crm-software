@@ -6,7 +6,9 @@ import { ENDPOINTS } from "./middleware/api";
 const initialUser = {
     userId: null,
     username: '',
-    name: 'User',
+    firstName: '',
+    lastName: '',
+    email: '',
     role: 'unknown',
     pic: '-'
 };
@@ -23,9 +25,11 @@ export const loginSlice = createSlice({
         },
         gotTokenData: (state, action) => {
             state.currentUser.userId = action.payload.userId;
-            state.currentUser.name = action.payload.firstName + ' ' + action.payload.lastName;
+            state.currentUser.firstName = action.payload.firstName;
+            state.currentUser.lastName = action.payload.lastName;
             state.currentUser.username = action.payload.username;
             state.currentUser.role = action.payload.type;
+            state.currentUser.email = action.payload.email;
 
             const content = action.payload.profilePic;
 
