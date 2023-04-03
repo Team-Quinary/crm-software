@@ -29,10 +29,11 @@ export function AppBarBody() {
     const [drop, setDrop] = useState(false);
     const [userWidth, setUserWidth] = useState(0);
     const [editProfileOpen, setEditProfileOpen] = useState(false);
+    const [profilePic, setProfilePic] = useState('');
 
     const usernameRef = useRef(null);
     const navigate = useNavigate();
-
+    
     const {
         userId,
         username,
@@ -78,7 +79,7 @@ export function AppBarBody() {
     var confirmError = false;
 
     const name = (firstName || 'unknown') + ' ' + (lastName || 'user');
-
+    
     useEffect(() => {
         setUserWidth(usernameRef.current.clientWidth);
     }, [name]);
@@ -227,6 +228,17 @@ export function AppBarBody() {
         }
     };
 
+    const handleProfilePicChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            setProfilePic(e.target.result);
+          };
+          reader.readAsDataURL(file);
+        }
+      };
+
     return (
         <Toolbar className={classes.toolbar}>
             <div className={classes.avatarContainer}>
@@ -272,7 +284,7 @@ export function AppBarBody() {
                         <ListItemIcon>
                             <AccountCircleIcon fontSize='small' />
                         </ListItemIcon>
-                        <ListItemText>Edit Profil</ListItemText>
+                        <ListItemText>Edit Profile</ListItemText>
                     </MenuItem>
                     <MenuItem onClick={() => {
                         setDrop(!drop);
@@ -450,7 +462,7 @@ export function AppBarBody() {
                             />
                         </div>
                     </div>
-
+                    
                     <Stack direction='row' spacing={2} sx={{ mt: 3 }} justifyContent='right'>
                         <Button
                             variant='outlined'
