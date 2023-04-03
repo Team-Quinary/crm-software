@@ -10,7 +10,8 @@ const initialUser = {
     lastName: '',
     email: '',
     role: 'unknown',
-    pic: '-'
+    pic: '-',
+    verified: false,
 };
 
 const initialDashboardData = {
@@ -63,7 +64,10 @@ export const loginSlice = createSlice({
         },
         dashboardDataLoaded: (state, action) => {
             state.dashboardData = action.payload;
-        }
+        },
+        userAuthenticated: (state, action) => {
+            state.currentUser.verified = action.payload;
+        },
     }
 })
 
@@ -72,7 +76,8 @@ const {
     gotTokenData,
     dataCleared,
     dataSet,
-    dashboardDataLoaded
+    dashboardDataLoaded,
+    userAuthenticated
 } = loginSlice.actions;
 
 export default loginSlice.reducer;
@@ -133,6 +138,28 @@ export const loadDashboardData = () => (dispatch, getState) => {
         })
     );
 }
+
+export const authenticateUser = (data) => (dispatch, getState) => {
+    dispatch(
+        apiCallBegan({
+            url: ENDPOINTS.login + '/Authenticate',
+            method: 'post',
+            data: data,
+            onSuccess: userAuthenticated.type,
+        })
+    );
+};
+
+export const updateProfile = (userId, data) => (dispatch, getState) => {
+    dispatch(
+        apiCallBegan({
+            url: ENDPOINTS.user + '/' + userId,
+            method: 'put',
+            data: data,
+            onSuccess: gotTokenData.type,
+        })
+    );
+};
 
 // Selectors
 
