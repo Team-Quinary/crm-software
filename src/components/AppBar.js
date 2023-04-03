@@ -14,7 +14,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import store from '../store/_storeConfig';
-import { logOut, setLoginData } from '../store/loginHandle';
+import { authenticateUser, logOut, updateProfile } from '../store/loginHandle';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
@@ -34,32 +34,48 @@ export function AppBarBody() {
     const navigate = useNavigate();
 
     const {
+        userId,
         username,
         firstName,
         lastName,
         email,
         role,
-        profilePic
+        pic
     } = useSelector(state => state.login.currentUser);
 
+    const [tempProfilePic, setTempProfilePic] = useState(pic);
+
+    const [tempUsername, setTempUsername] = useState(username);
     const [usernameError, setUsernameError] = useState(false);
     var uError = false;
 
+    const [tempFirstName, setTempFirstName] = useState(firstName);
     const [firstNameError, setFirstNameError] = useState(false);
     var fError = false;
 
+    const [tempLastName, setTempLastName] = useState(lastName);
     const [lastNameError, setLastNameError] = useState(false);
     var lError = false;
 
+    const [tempEmail, setTempEmail] = useState(email);
     const [emailError, setEmailError] = useState(false);
     var eError = false;
+
+    const [contactNo, setContactNo] = useState('');
+    const [contactError, setContactError] = useState(false);
+    var cNoError = false;
+
+    const [currentPassword, setCurrentPassword] = useState('');
+    const [currentPasswordError, setCurrentPasswordError] = useState(false);
+    var cpError = false;
 
     const [password, setPassword] = useState('');
     const [passwordError, setPasswordError] = useState(false);
     var pError = false;
 
+    const [confirmPassword, setConfirmPassword] = useState('');
     const [confirmPasswordError, setConfirmPasswordError] = useState(false);
-    var cpError = false;
+    var confirmError = false;
 
     const name = (firstName || 'unknown') + ' ' + (lastName || 'user');
 
@@ -77,10 +93,138 @@ export function AppBarBody() {
         setDrop(!drop);
     };
 
+    const handleClear = () => {
+        setTempUsername(username);
+        setTempFirstName(firstName);
+        setTempLastName(lastName);
+        setTempEmail(email);
+        setCurrentPassword('');
+        setPassword('');
+        setConfirmPassword('');
+        setTempProfilePic(pic);
+        setContactNo('');
+
+        clearErrors();
+    };
+
+    const clearErrors = () => {
+        setFirstNameError(false);
+        setLastNameError(false);
+        setUsernameError(false);
+        setEmailError(false);
+        setCurrentPasswordError(false);
+        setPasswordError(false);
+        setConfirmPasswordError(false);
+        setContactError(false);
+
+        fError = false;
+        lError = false;
+        uError = false;
+        eError = false;
+        cpError = false;
+        pError = false;
+        cpError = false;
+        cNoError = false;
+    };
+
     const handleDialogClose = () => {
-        // store.dispatch(setCustomerData('open', !open));
-        // handleClear();
         setEditProfileOpen(false);
+        handleClear();
+        setEditProfileOpen(false);
+    };
+
+    const handleProfilePicChange = (e) => {
+        const file = e.target.files[0];
+
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                setTempProfilePic(e.target.result);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
+    const saveChanges = () => {
+        clearErrors();
+
+        if (tempUsername === '') {
+            setUsernameError(true);
+            uError = true;
+        }
+
+        if (tempFirstName === '') {
+            setFirstNameError(true);
+            fError = true;
+        }
+
+        if (tempLastName === '') {
+            setLastNameError(true);
+            lError = true;
+        }
+
+        if (tempEmail === '') {
+            setEmailError(true);
+            eError = true;
+        }
+
+        if (contactNo === '') {
+            setContactError(true);
+            cNoError = true;
+        }
+
+        if (currentPassword === '') {
+            setCurrentPasswordError(true);
+            cpError = true;
+        }
+
+        if (password === '') {
+            setPasswordError(true);
+            pError = true;
+        }
+
+        if (confirmPassword === '') {
+            setConfirmPasswordError(true);
+            cpError = true;
+        }
+
+        if (password !== confirmPassword) {
+            setPasswordError(true);
+            setConfirmPasswordError(true);
+            pError = true;
+            cpError = true;
+        }
+
+        if (!uError && !fError && !lError && !eError && !cNoError && !confirmError && !pError && !cpError) {
+            store.dispatch(authenticateUser({ username: username, password: currentPassword }));
+
+            const unsubscribe = store.subscribe(() => {
+                const authenticated = store.getState().login.currentUser.verified;
+                
+                if (authenticated) {
+                    unsubscribe();
+                    
+                    const data = {
+                        type: role,
+                        username: tempUsername,
+                        firstName: tempFirstName,
+                        lastName: tempLastName,
+                        email: tempEmail,
+                        contactNo,
+                        password,
+                        profilePic: tempProfilePic
+                    };
+        
+                    store.dispatch(updateProfile(userId, data));
+                }
+                else {
+                    unsubscribe();
+                    alert("Current password is incorrect");
+                }
+            });
+
+            handleDialogClose();
+        }
     };
 
     return (
@@ -142,14 +286,14 @@ export function AppBarBody() {
                     </MenuItem>
                 </Menu>
             </div>
-            {profilePic === '-'
+            {pic === '-'
                 ?
                 <Avatar className={classes.avatar}>
                     {name[0].toUpperCase()}
                 </Avatar>
                 :
                 <Avatar className={classes.avatar}
-                    src={profilePic}
+                    src={pic}
                 />
             }
             <Dialog
@@ -162,96 +306,150 @@ export function AppBarBody() {
                     Edit your profile
                 </DialogTitle>
                 <Divider />
-                <DialogContent>
-                    <TextField
-                        autoFocus
-                        required
-                        fullWidth
-                        type='text'
-                        name='username'
-                        value={username}
-                        label='Username'
-                        variant='standard'
-                        color='secondary'
-                        error={usernameError}
-                        helperText={usernameError ? "Can not be Empty" : null}
-                        onChange={(e) => store.dispatch(setLoginData('username', e.target.value))}
-                    />
+                <DialogContent sx={{ minHeight: '90vh' }}>
+                    <div className={classes.projectFormContainer}>
+                        <div>
+                            {tempProfilePic && (
+                                <div style={{ display: 'flex', justifyContent: 'center', margin: '20px', height: '210px' }}>
+                                    <img src={tempProfilePic} width={'210px'} alt="Profile Pic" />
+                                </div>
+                            )}
 
-                    <TextField
-                        required
-                        fullWidth
-                        type='password'
-                        name='contact-person'
-                        value={password}
-                        label='Password'
-                        variant='standard'
-                        color='secondary'
-                        className={classes.field}
-                    error={passwordError}
-                    helperText={passwordError ? "Can not be Empty" : null}
-                    // onChange={(e) => store.dispatch(setCustomerData('password', e.target.value))}
-                    />
+                            <TextField
+                                autoFocus
+                                required
+                                fullWidth
+                                type="file"
+                                accept="image/*"
+                                name="profilePic"
+                                variant="standard"
+                                color="secondary"
+                                onChange={handleProfilePicChange}
+                                sx={{ marginTop: '35px' }}
+                            />
 
-                    <TextField
-                        required
-                        fullWidth
-                        type='password'
-                        name='contact-person'
-                        // value={contactPerson}
-                        label='Confirm Password'
-                        variant='standard'
-                        color='secondary'
-                        className={classes.field}
-                    // error={contactPersonError}
-                    // helperText={contactPersonError ? "Can not be Empty" : null}
-                    // onChange={(e) => store.dispatch(setCustomerData('contactPerson', e.target.value))}
-                    />
+                            <TextField
+                                required
+                                fullWidth
+                                type='password'
+                                name='currentPassword'
+                                value={currentPassword}
+                                label='Current Password'
+                                variant='standard'
+                                color='secondary'
+                                className={classes.field}
+                                error={currentPasswordError}
+                                helperText={currentPasswordError ? "Can not be Empty" : null}
+                                onChange={(e) => setCurrentPassword(e.target.value)}
+                            />
+                        </div>
+                        <div>
+                            <TextField
+                                autoFocus
+                                required
+                                fullWidth
+                                type='text'
+                                name='username'
+                                value={tempUsername}
+                                label='Username'
+                                variant='standard'
+                                color='secondary'
+                                error={usernameError}
+                                helperText={usernameError ? "Can not be Empty" : null}
+                                onChange={(e) => setTempUsername(e.target.value)}
+                            />
 
-                    <TextField
-                        required
-                        fullWidth
-                        type='text'
-                        name='contactNo'
-                        // value={contactNo}
-                        label='First Name'
-                        variant='standard'
-                        color='secondary'
-                        className={classes.field}
-                    // error={contactError}
-                    // helperText={contactError ? "Can not be Empty" : null}
-                    // onChange={(e) => store.dispatch(setCustomerData('contactNo', e.target.value))}
-                    />
+                            <TextField
+                                required
+                                fullWidth
+                                type='password'
+                                name='password'
+                                value={password}
+                                label='New Password'
+                                variant='standard'
+                                color='secondary'
+                                className={classes.field}
+                                error={passwordError}
+                                helperText={passwordError ? "Can not be Empty" : null}
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
 
-                    <TextField
-                        required
-                        fullWidth
-                        type='text'
-                        name='email'
-                        // value={email}
-                        label='Last Name'
-                        variant='standard'
-                        color='secondary'
-                        className={classes.field}
-                    // error={emailError}
-                    // helperText={emailError ? emailErrorMsg : null}
-                    // onChange={(e) => store.dispatch(setCustomerData('email', e.target.value))}
-                    />
+                            <TextField
+                                required
+                                fullWidth
+                                type='password'
+                                name='confirmPassword'
+                                value={confirmPassword}
+                                label='Confirm Password'
+                                variant='standard'
+                                color='secondary'
+                                className={classes.field}
+                                error={confirmPasswordError}
+                                helperText={confirmPasswordError ? "Can not be Empty" : null}
+                                onChange={(e) => setConfirmPassword(e.target.value)}
+                            />
 
-                    <TextField
-                        required
-                        fullWidth
-                        type='email'
-                        name='email'
-                        // value={email}
-                        label='Email'
-                        variant='standard'
-                        color='secondary'
-                        className={classes.field}
-                    // error={emailError}
-                    // helperText={emailError ? "Email is req" : null}
-                    // onChange={(e) => store.dispatch(setCustomerData('email', e.target.value))}
-                    />
+                            <TextField
+                                required
+                                fullWidth
+                                type='text'
+                                name='firstName'
+                                value={tempFirstName}
+                                label='First Name'
+                                variant='standard'
+                                color='secondary'
+                                className={classes.field}
+                                error={firstNameError}
+                                helperText={firstNameError ? "Can not be Empty" : null}
+                                onChange={(e) => setTempFirstName(e.target.value)}
+                            />
+
+                            <TextField
+                                required
+                                fullWidth
+                                type='text'
+                                name='lastName'
+                                value={tempLastName}
+                                label='Last Name'
+                                variant='standard'
+                                color='secondary'
+                                className={classes.field}
+                                error={lastNameError}
+                                helperText={lastNameError ? 'Can not be Empty' : null}
+                                onChange={(e) => setTempLastName(e.target.value)}
+                            />
+
+                            <TextField
+                                required
+                                fullWidth
+                                type='number'
+                                name='contactNo'
+                                value={contactNo}
+                                label='Contatc No'
+                                variant='standard'
+                                color='secondary'
+                                className={classes.field}
+                                error={contactError}
+                                helperText={contactError ? "Contact No is required" : null}
+                                onChange={(e) => setContactNo(e.target.value)}
+                            />
+
+                            <TextField
+                                required
+                                fullWidth
+                                type='email'
+                                name='email'
+                                value={tempEmail}
+                                label='Email'
+                                variant='standard'
+                                color='secondary'
+                                className={classes.field}
+                                error={emailError}
+                                helperText={emailError ? "Email is required" : null}
+                                onChange={(e) => setTempEmail(e.target.value)}
+                            />
+                        </div>
+                    </div>
 
                     <Stack direction='row' spacing={2} sx={{ mt: 3 }} justifyContent='right'>
                         <Button
@@ -263,14 +461,14 @@ export function AppBarBody() {
 
                         <Button
                             variant='outlined'
-                        // onClick={handleClear}
+                            onClick={handleClear}
                         >
                             Clear
                         </Button>
 
                         <Button
                             variant='contained'
-                        // onClick={handleUpdate}
+                            onClick={saveChanges}
                         >
                             Save Changes
                         </Button>
