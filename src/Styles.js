@@ -149,6 +149,7 @@ export const useStyles = makeStyles()((theme) => {
             '& .MuiToggleButtonGroup-root .MuiToggleButton-root': {
                 border: '1px solid gray',
                 padding: '2px 5px',
+                whiteSpace: 'nowrap',
             }
         },
         projectFormContainer: {

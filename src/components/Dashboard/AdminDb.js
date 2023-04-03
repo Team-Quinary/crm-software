@@ -1,7 +1,8 @@
 import React from 'react';
 import { Typography } from '@mui/material';
 import { makeStyles } from "tss-react/mui";
-import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
+import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles()((theme) => {
     const cardstyles = {
@@ -67,45 +68,31 @@ const useStyles = makeStyles()((theme) => {
 export default function AdminDb() {
     const { classes } = useStyles();
 
-    const projectCount = 250;
-    const customerCount = 150;
-    const techLeadCount = 105;
-    const completed = 100;
-    const ongoing = 180;
-    const suspended = 10;
+    const {
+        projectCount,
+        customerCount,
+        techLeadCount,
+        completed,
+        ongoing,
+        suspended,
+        lastDays,
+        newProjects,
+        payments
+    } = useSelector(state => state.login.dashboardData);
 
-    const data = [
-        {
-            name: 'Page A',
-            uv: 4000,
-            pv: 2400,
-            amt: 2400,
-        },
-        {
-            name: 'Page B',
-            uv: 3000,
-            pv: 1398,
-            amt: 2210,
-        },
-        {
-            name: 'Page C',
-            uv: 2000,
-            pv: 9800,
-            amt: 2290,
-        },
-        {
-            name: 'Page D',
-            uv: 2780,
-            pv: 3908,
-            amt: 2000,
-        },
-        {
-            name: 'Page E',
-            uv: 1890,
-            pv: 4800,
-            amt: 2181,
-        },
-    ];
+    const newProjectsData = newProjects.map((item, index) => {
+        return {
+            day: lastDays[index],
+            projects: item
+        }
+    });
+
+    const paymentsData = payments.map((item, index) => {
+        return {
+            day: lastDays[index],
+            payments: item
+        }
+    });
 
     return (
         <div className='adminDashboard'>
@@ -140,35 +127,35 @@ export default function AdminDb() {
                                 Projects Started
                             </Typography>
                             <ResponsiveContainer aspect={3 / 2}>
-                                <LineChart
-                                    data={data}
+                                <AreaChart
+                                    data={newProjectsData}
                                 >
-                                    <XAxis dataKey="name" />
+                                    <XAxis dataKey="day" />
                                     <YAxis />
                                     <Tooltip />
-                                    <Line type="monotone" dataKey="pv" stroke="#8884d8" />
-                                </LineChart>
+                                    <Area type="monotone" dataKey="projects" stroke="#8884d8" />
+                                </AreaChart>
                             </ResponsiveContainer>
                         </div>
                         <div className={classes.chart}>
                             <Typography align='center' sx={{ mb: 1 }} variant='h6'>
-                                Payments Received
+                                Payments Received (USD)
                             </Typography>
                             <ResponsiveContainer aspect={3 / 2}>
-                                <LineChart
-                                    data={data}
+                                <AreaChart
+                                    data={paymentsData}
                                 >
-                                    <XAxis dataKey="name" />
+                                    <XAxis dataKey="day" />
                                     <YAxis />
                                     <Tooltip />
-                                    <Line type="monotone" dataKey="pv" stroke="#8884d8" />
-                                </LineChart>
+                                    <Area type="monotone" dataKey="payments" stroke="#8884d8" />
+                                </AreaChart>
                             </ResponsiveContainer>
                         </div>
                     </div>
                 </div>
                 <div className={classes.requirements}>
-                    
+
                 </div>
             </div>
         </div >
