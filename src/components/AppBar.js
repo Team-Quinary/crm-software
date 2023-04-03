@@ -29,10 +29,11 @@ export function AppBarBody() {
     const [drop, setDrop] = useState(false);
     const [userWidth, setUserWidth] = useState(0);
     const [editProfileOpen, setEditProfileOpen] = useState(false);
+    const [profilePic, setProfilePic] = useState('');
 
     const usernameRef = useRef(null);
     const navigate = useNavigate();
-
+    
     const {
         username,
         firstName,
@@ -62,7 +63,7 @@ export function AppBarBody() {
     var cpError = false;
 
     const name = (firstName || 'unknown') + ' ' + (lastName || 'user');
-
+    
     useEffect(() => {
         setUserWidth(usernameRef.current.clientWidth);
     }, [name]);
@@ -82,6 +83,17 @@ export function AppBarBody() {
         // handleClear();
         setEditProfileOpen(false);
     };
+
+    const handleProfilePicChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            setProfilePic(e.target.result);
+          };
+          reader.readAsDataURL(file);
+        }
+      };
 
     return (
         <Toolbar className={classes.toolbar}>
@@ -128,7 +140,7 @@ export function AppBarBody() {
                         <ListItemIcon>
                             <AccountCircleIcon fontSize='small' />
                         </ListItemIcon>
-                        <ListItemText>Edit Profil</ListItemText>
+                        <ListItemText>Edit Profile</ListItemText>
                     </MenuItem>
                     <MenuItem onClick={() => {
                         setDrop(!drop);
@@ -163,6 +175,26 @@ export function AppBarBody() {
                 </DialogTitle>
                 <Divider />
                 <DialogContent>
+                <div className={classes.editProfileFormContainer}>
+                    <div>
+                        {profilePic && (
+                            <div>
+                                <img src={profilePic} alt="Profile Pic" />
+                            </div>
+                        )} 
+                        <TextField
+                            autoFocus
+                            required
+                            fullWidth
+                            type="file"
+                            accept="image/*"
+                            name="profilePic"
+                            variant="standard"
+                            color="secondary"
+                            onChange={handleProfilePicChange}
+                        />                         
+                    </div>
+                    <div>
                     <TextField
                         autoFocus
                         required
@@ -183,8 +215,23 @@ export function AppBarBody() {
                         fullWidth
                         type='password'
                         name='contact-person'
-                        value={password}
-                        label='Password'
+                        // value={contactPerson}
+                        label='Current Password'
+                        variant='standard'
+                        color='secondary'
+                        className={classes.field}
+                        // error={contactPersonError}
+                        // helperText={contactPersonError ? "Can not be Empty" : null}
+                        // onChange={(e) => store.dispatch(setCustomerData('contactPerson', e.target.value))}
+                    />
+
+                    <TextField
+                        required
+                        fullWidth
+                        type='password'
+                        name='contact-person'
+                        // value={contactPerson}
+                        label='New Password'
                         variant='standard'
                         color='secondary'
                         className={classes.field}
@@ -252,6 +299,8 @@ export function AppBarBody() {
                     // helperText={emailError ? "Email is req" : null}
                     // onChange={(e) => store.dispatch(setCustomerData('email', e.target.value))}
                     />
+                    </div>
+                    </div>                    
 
                     <Stack direction='row' spacing={2} sx={{ mt: 3 }} justifyContent='right'>
                         <Button

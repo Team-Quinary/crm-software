@@ -236,6 +236,15 @@ export const useStyles = makeStyles()((theme) => {
             paddingLeft: '20px',
             borderRadius: '8px',
             marginBottom: '20px',
+        },
+
+//Edit Profile
+
+        editProfileFormContainer: {
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            columnGap: '50px',
+            width: '100%'
         }
     }
 });
