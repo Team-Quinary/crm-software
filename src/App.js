@@ -13,7 +13,7 @@ import EndUsers from './pages/EndUsers';
 
 import Login from './pages/Login';
 import { useEffect } from 'react';
-
+import "./components/Chat/Message_App.css"
 import store from './store/_storeConfig';
 import { loadProjects } from './store/projectHandle';
 import { loadUsers } from './store/userHandle';
@@ -22,6 +22,12 @@ import { loadEndusers, loadSales } from './store/saleHandle';
 import { loadPayments } from './store/paymentHandle';
 import Payments from './pages/Payments';
 import Progress from './pages/Progress';
+import MsgHome from "./components/Chat/Pages/MsgHome"
+import MsgLogin from "./components/Chat/Pages/MsgLogin"
+import MsgRegister from "./components/Chat/Pages/MsgRegister"
+import MsgProfile from "./components/Chat/Pages/MsgProfile"
+
+
 
 const theme = createTheme({
     palette: {
@@ -56,6 +62,11 @@ function App() {
                     <Route path='/newsletters' element={<Newsletters />} />
                     <Route path='/payments' element={<Payments />} />
                     <Route path='/*' element={<Test />} />
+
+                    <Route path="/components/Chat/Pages/MsgHome" element={<MsgHome/>}/>
+                    <Route path="/register" element={<MsgRegister/>}/>
+                    <Route path="/components/Chat/Pages/MsgLogin" element={<MsgLogin/>}/>
+                    <Route path="/profile" element={<MsgProfile/>}/>
                 </Route>
             </>
         )
