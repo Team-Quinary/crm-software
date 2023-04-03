@@ -89,7 +89,7 @@ export default function SearchBar({ page, search, setSearch }) {
                 alignItems='center'
                 className={classes.searchStack}
             >
-                <Typography>Sort By:</Typography>
+                <Typography sx={{ whiteSpace: 'nowrap' }}>Sort By:</Typography>
 
                 <ToggleButtonGroup
                     value={sortField}

@@ -13,6 +13,7 @@ import UnsubscribeOutlinedIcon from '@mui/icons-material/UnsubscribeOutlined';
 import PaidOutlinedIcon from '@mui/icons-material/PaidOutlined';
 import PermContactCalendarOutlinedIcon from '@mui/icons-material/PermContactCalendarOutlined';
 import DashboardIcon from '@mui/icons-material/Dashboard';
+import EventRepeatIcon from '@mui/icons-material/EventRepeat';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useStyles } from '../Styles';
 import TimelineIcon from '@mui/icons-material/Timeline';
@@ -55,7 +56,7 @@ export function DrawerBody({ open }) {
         },
         {
             text: "Progress",
-            icon: <ReceiptLongOutlinedIcon className={classes.drawerIcon} />,
+            icon: <EventRepeatIcon className={classes.drawerIcon} />,
             path: '/progress'
         },
         {

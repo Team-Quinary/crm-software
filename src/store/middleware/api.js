@@ -8,7 +8,8 @@ export const ENDPOINTS = {
     project: '/Project',
     login: '/LoginUser',
     endUser: '/Enduser',
-    payment: '/Payment'
+    payment: '/Payment',
+    dashboard: '/User/Dashboard',
 };
 
 export const apiCallBegan = createAction('api/callBegan');
