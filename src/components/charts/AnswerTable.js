@@ -15,6 +15,8 @@ import { useSelector } from 'react-redux';
 import { useState } from 'react';
 import { Typography } from '@mui/material';
 
+
+// function can be used as a comparator function for sorting an array of objects in descending order based on a specific property
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
         return -1;
@@ -25,12 +27,14 @@ function descendingComparator(a, b, orderBy) {
     return 0;
 }
 
+//generate a comparator function for sorting an array of objects in either ascending or descending
 function getComparator(order, orderBy) {
     return order === 'desc'
         ? (a, b) => descendingComparator(a, b, orderBy)
         : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
+//ensuring that elements that have the same value according to the comparator function are sorted in the same order as they appeared in the original array.
 function stableSort(array, comparator) {
     const stabilizedThis = array.map((el, index) => [el, index]);
     stabilizedThis.sort((a, b) => {
@@ -58,6 +62,8 @@ const headCells = [
     }
 ];
 
+
+//create a table head component that can be used for sorting table rows
 function EnhancedTableHead(props) {
     const { order, orderBy, onRequestSort } = props;
 
@@ -110,13 +116,68 @@ export default function EnhancedTable() {
             project: "Project X",
             customer: "Hasathcharu",
             answer: "Testing answer"
-        }
+        },
+        {
+            project: "Project Y",
+            customer: "Menura",
+            answer: "Testing answer1"
+        },
+        {
+            project: "Project A",
+            customer: "Waruni",
+            answer: "Testing answer2"
+        },
+        {
+            project: "Project B",
+            customer: "Nethmini",
+            answer: "Testing answer3"
+        },
+        {
+            project: "Project C",
+            customer: "Ransilu",
+            answer: "Testing answer4"
+        },
+        {
+            project: "Project D",
+            customer: "Hasidu",
+            answer: "Testing answer5"
+        },
+        {
+            project: "Project E",
+            customer: "Yahani",
+            answer: "Testing answer6"
+        },
+        {
+            project: "Project F",
+            customer: "Hasathcharu",
+            answer: "Testing answer7"
+        },
+        {
+            project: "Project G",
+            customer: "Rumesha",
+            answer: "Testing answer8"
+        },
+        {
+            project: "Project H",
+            customer: "Nipuni",
+            answer: "Testing answer9"
+        },
+        {
+            project: "Project K",
+            customer: "Taneesha",
+            answer: "Testing answer10"
+        },
+        {
+            project: "Project L",
+            customer: "Tharaka",
+            answer: "Testing answer11"
+        },
     ];
 
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState('date');
     const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(10);
+    const [rowsPerPage, setRowsPerPage] = useState(5);
 
     // const category = useSelector(state => state.entities.payments.variables.category);
 
@@ -131,7 +192,7 @@ export default function EnhancedTable() {
     };
 
     const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(parseInt(event.target.value, 10));
+        setRowsPerPage(parseInt(event.target.value, 5));
         setPage(0);
     };
 
@@ -172,7 +233,7 @@ export default function EnhancedTable() {
                     </Table>
                 </TableContainer>
                 <TablePagination
-                    rowsPerPageOptions={[10, 25, 50]}
+                    rowsPerPageOptions={[5,10,20]}
                     component="div"
                     count={rows.length}
                     rowsPerPage={rowsPerPage}

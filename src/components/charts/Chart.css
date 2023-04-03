@@ -11,7 +11,7 @@
     padding: 10px;
     border-radius: 20px;
     cursor: pointer;
-    box-shadow: 0px 10px 15px -3px rgba(16, 5, 5, 0.1);
+    box-shadow: 0px 10px 15px -3px rgba(160, 135, 24, 0.1);
 }
 
 .analys-elements {
@@ -51,3 +51,7 @@
     padding-left: px;
     border-radius: 20px;
 } */
+
+.question-checkbox{
+    padding-bottom: 20px;
+}
