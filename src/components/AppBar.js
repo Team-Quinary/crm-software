@@ -14,7 +14,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import store from '../store/_storeConfig';
-import { logOut } from '../store/loginHandle';
+import { logOut, setLoginData } from '../store/loginHandle';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
@@ -33,11 +33,37 @@ export function AppBarBody() {
 
     const usernameRef = useRef(null);
     const navigate = useNavigate();
+    
+    const {
+        username,
+        firstName,
+        lastName,
+        email,
+        role,
+        profilePic
+    } = useSelector(state => state.login.currentUser);
 
-    const name = useSelector(state => state.login.currentUser.name);
-    const role = useSelector(state => state.login.currentUser.role);
-    // const profilePic = useSelector(state => state.login.currentUser.pic);
+    const [usernameError, setUsernameError] = useState(false);
+    var uError = false;
 
+    const [firstNameError, setFirstNameError] = useState(false);
+    var fError = false;
+
+    const [lastNameError, setLastNameError] = useState(false);
+    var lError = false;
+
+    const [emailError, setEmailError] = useState(false);
+    var eError = false;
+
+    const [password, setPassword] = useState('');
+    const [passwordError, setPasswordError] = useState(false);
+    var pError = false;
+
+    const [confirmPasswordError, setConfirmPasswordError] = useState(false);
+    var cpError = false;
+
+    const name = (firstName || 'unknown') + ' ' + (lastName || 'user');
+    
     useEffect(() => {
         setUserWidth(usernameRef.current.clientWidth);
     }, [name]);
@@ -174,14 +200,14 @@ export function AppBarBody() {
                         required
                         fullWidth
                         type='text'
-                        name='company'
-                        label='User Name'
-                        // value={company}                        label='Username'
+                        name='username'
+                        value={username}
+                        label='Username'
                         variant='standard'
                         color='secondary'
-                        // error={companyError}
-                        // helperText={companyError ? companyErrorMsg : null}
-                        // onChange={(e) => store.dispatch(setCustomerData('company', e.target.value))}
+                        error={usernameError}
+                        helperText={usernameError ? "Can not be Empty" : null}
+                        onChange={(e) => store.dispatch(setLoginData('username', e.target.value))}
                     />
 
                     <TextField
@@ -209,9 +235,9 @@ export function AppBarBody() {
                         variant='standard'
                         color='secondary'
                         className={classes.field}
-                        // error={contactPersonError}
-                        // helperText={contactPersonError ? "Can not be Empty" : null}
-                        // onChange={(e) => store.dispatch(setCustomerData('contactPerson', e.target.value))}
+                    error={passwordError}
+                    helperText={passwordError ? "Can not be Empty" : null}
+                    // onChange={(e) => store.dispatch(setCustomerData('password', e.target.value))}
                     />
 
                     <TextField
@@ -224,9 +250,9 @@ export function AppBarBody() {
                         variant='standard'
                         color='secondary'
                         className={classes.field}
-                        // error={contactPersonError}
-                        // helperText={contactPersonError ? "Can not be Empty" : null}
-                        // onChange={(e) => store.dispatch(setCustomerData('contactPerson', e.target.value))}
+                    // error={contactPersonError}
+                    // helperText={contactPersonError ? "Can not be Empty" : null}
+                    // onChange={(e) => store.dispatch(setCustomerData('contactPerson', e.target.value))}
                     />
 
                     <TextField
@@ -239,9 +265,9 @@ export function AppBarBody() {
                         variant='standard'
                         color='secondary'
                         className={classes.field}
-                        // error={contactError}
-                        // helperText={contactError ? "Can not be Empty" : null}
-                        // onChange={(e) => store.dispatch(setCustomerData('contactNo', e.target.value))}
+                    // error={contactError}
+                    // helperText={contactError ? "Can not be Empty" : null}
+                    // onChange={(e) => store.dispatch(setCustomerData('contactNo', e.target.value))}
                     />
 
                     <TextField
@@ -254,9 +280,9 @@ export function AppBarBody() {
                         variant='standard'
                         color='secondary'
                         className={classes.field}
-                        // error={emailError}
-                        // helperText={emailError ? emailErrorMsg : null}
-                        // onChange={(e) => store.dispatch(setCustomerData('email', e.target.value))}
+                    // error={emailError}
+                    // helperText={emailError ? emailErrorMsg : null}
+                    // onChange={(e) => store.dispatch(setCustomerData('email', e.target.value))}
                     />
 
                     <TextField
@@ -269,9 +295,9 @@ export function AppBarBody() {
                         variant='standard'
                         color='secondary'
                         className={classes.field}
-                        // error={emailError}
-                        // helperText={emailError ? emailErrorMsg : null}
-                        // onChange={(e) => store.dispatch(setCustomerData('email', e.target.value))}
+                    // error={emailError}
+                    // helperText={emailError ? "Email is req" : null}
+                    // onChange={(e) => store.dispatch(setCustomerData('email', e.target.value))}
                     />
                     </div>
                     </div>                    
@@ -286,14 +312,14 @@ export function AppBarBody() {
 
                         <Button
                             variant='outlined'
-                            // onClick={handleClear}
+                        // onClick={handleClear}
                         >
                             Clear
                         </Button>
 
                         <Button
                             variant='contained'
-                            // onClick={handleUpdate}
+                        // onClick={handleUpdate}
                         >
                             Save Changes
                         </Button>

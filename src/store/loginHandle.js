@@ -6,16 +6,31 @@ import { ENDPOINTS } from "./middleware/api";
 const initialUser = {
     userId: null,
     username: '',
-    name: 'User',
+    firstName: '',
+    lastName: '',
+    email: '',
     role: 'unknown',
     pic: '-'
+};
+
+const initialDashboardData = {
+    projectCount: 0,
+    customerCount: 0,
+    techLeadCount: 0,
+    completed: 0,
+    ongoing: 0,
+    suspended: 0,
+    lastDays: [],
+    newProjects: [],
+    payments: []    
 };
 
 export const loginSlice = createSlice({
     name: 'login',
     initialState: {
         token: null,
-        currentUser: initialUser
+        currentUser: initialUser,
+        dashboardData: initialDashboardData
     },
     reducers: {
         loggedIn: (state, action) => {
@@ -23,9 +38,11 @@ export const loginSlice = createSlice({
         },
         gotTokenData: (state, action) => {
             state.currentUser.userId = action.payload.userId;
-            state.currentUser.name = action.payload.firstName + ' ' + action.payload.lastName;
+            state.currentUser.firstName = action.payload.firstName;
+            state.currentUser.lastName = action.payload.lastName;
             state.currentUser.username = action.payload.username;
             state.currentUser.role = action.payload.type;
+            state.currentUser.email = action.payload.email;
 
             const content = action.payload.profilePic;
 
@@ -36,6 +53,16 @@ export const loginSlice = createSlice({
         loggedOut: (state, action) => {
             state.token = null;
             state.currentUser = initialUser;
+        },
+        dataCleared: (state, action) => {
+            state.currentUser = initialUser;
+            state.dashboardData = initialDashboardData;
+        },
+        dataSet: (state, action) => {
+            state.currentUser[action.payload.field] = action.payload.data;
+        },
+        dashboardDataLoaded: (state, action) => {
+            state.dashboardData = action.payload;
         }
     }
 })
@@ -43,6 +70,9 @@ export const loginSlice = createSlice({
 const {
     loggedIn,
     gotTokenData,
+    dataCleared,
+    dataSet,
+    dashboardDataLoaded
 } = loginSlice.actions;
 
 export default loginSlice.reducer;
@@ -80,6 +110,28 @@ export const getTokenData = () => (dispatch, getState) => {
 
 export const logOut = () => (dispatch, getState) => {
     dispatch({type: 'login/loggedOut'});
+}
+
+export const clearData = () => (dispatch, getState) => {
+    dispatch({
+        type: dataCleared.type
+    });
+}
+
+export const setLoginData = (field, data) => (dispatch, getState) => {
+    dispatch({
+        type: dataSet.type,
+        payload: { field, data }
+    });
+}
+
+export const loadDashboardData = () => (dispatch, getState) => {
+    dispatch(
+        apiCallBegan({
+            url: ENDPOINTS.dashboard,
+            onSuccess: dashboardDataLoaded.type,
+        })
+    );
 }
 
 // Selectors
