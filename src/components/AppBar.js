@@ -29,7 +29,6 @@ export function AppBarBody() {
     const [drop, setDrop] = useState(false);
     const [userWidth, setUserWidth] = useState(0);
     const [editProfileOpen, setEditProfileOpen] = useState(false);
-    const [profilePic, setProfilePic] = useState('');
 
     const usernameRef = useRef(null);
     const navigate = useNavigate();
@@ -227,17 +226,6 @@ export function AppBarBody() {
             handleDialogClose();
         }
     };
-
-    const handleProfilePicChange = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-          const reader = new FileReader();
-          reader.onload = (e) => {
-            setProfilePic(e.target.result);
-          };
-          reader.readAsDataURL(file);
-        }
-      };
 
     return (
         <Toolbar className={classes.toolbar}>

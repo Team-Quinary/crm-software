@@ -20,31 +20,36 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { useSelector } from 'react-redux';
+
 import store from '../store/_storeConfig';
-import { 
-    addProject, 
-    clearData, 
-    getProject, 
-    removeProject, 
-    setProjectData, 
-    statusTypes, 
-    updateProject 
+import {
+    addProject,
+    clearData,
+    getProject,
+    removeProject,
+    setProjectData,
+    statusTypes,
+    updateProject
 } from '../store/projectHandle';
 import { getUser } from '../store/userHandle';
 import { getCustomer } from '../store/customerHandle';
 
+/**
+ * 
+ * @returns 
+ */
 function Projects() {
     const { classes } = useStyles();
     const [expanded, setExpanded] = useState();
     const [expandProject, setExpandProject] = useState();
 
-    const { 
+    const {
         name,
         fee,
-        duration, 
-        startDate, 
+        duration,
+        startDate,
         installments,
-        status, 
+        status,
         description,
         techLeadId,
         techLead,
@@ -53,7 +58,7 @@ function Projects() {
         category,
         sortField,
         descending,
-        open 
+        open
     } = useSelector((state) => state.entities.projects.variables);
 
     const projects = useSelector(state => state.entities.projects.list);
@@ -89,9 +94,11 @@ function Projects() {
     var cError = false;
 
     const [search, setSearch] = useState('');
-    
+
     const [isUpdate, setIsUpdate] = useState(false);
     const [updateId, setUpdateId] = useState(null);
+
+    const [confirmOpen, setConfirmOpen] = useState(false);
 
     const fullWidth = true;
 
@@ -103,11 +110,11 @@ function Projects() {
 
     const handleClear = () => {
         store.dispatch(clearData());
-        
+
         setSearch('');
         setUpdateId('');
         clearErrors();
-        
+
         if (!isUpdate)
             setIsUpdate(false);
     };
@@ -208,10 +215,6 @@ function Projects() {
             handleClear();
             store.dispatch(setProjectData('open', !open));
         }
-    };
-
-    const handleDelete = (id) => {
-        store.dispatch(removeProject(id));
     };
 
     const setToUpdate = (id) => {
@@ -362,17 +365,48 @@ function Projects() {
                                             <IconButton onClick={() => setToUpdate(project.projectId)}>
                                                 <EditOutlined />
                                             </IconButton>
-                                            <IconButton onClick={() => handleDelete(project.projectId)}>
+                                            <IconButton onClick={() => {setConfirmOpen(true); setUpdateId(project.projectId);}}>
                                                 <DeleteOutlined />
                                             </IconButton>
+                                            <Dialog
+                                                open={confirmOpen}
+                                                onClose={handleDialogClose}
+                                                fullWidth={fullWidth}
+                                                maxWidth='xs'
+                                            >
+                                                <DialogTitle>
+                                                    Do you want to delete the Card?
+                                                </DialogTitle>
+                                                <Divider />
+                                                <DialogContent>
+                                                    <Stack direction='row' spacing={2} justifyContent='right'>
+                                                        <Button
+                                                            variant='outlined'
+                                                            onClick={handleDialogClose}
+                                                        >
+                                                            No
+                                                        </Button>
+
+                                                        <Button
+                                                            variant='contained'
+                                                            onClick={() => {
+                                                                store.dispatch(removeProject(updateId));
+                                                                setConfirmOpen(false);
+                                                            }}
+                                                        >
+                                                            Yes
+                                                        </Button>
+                                                    </Stack>
+                                                </DialogContent>
+                                            </Dialog>
                                         </Stack>
                                     }
                                     title={project.name}
                                     className={classes.customerCardHeader}
                                 />
                                 <Divider />
-                                <Accordion 
-                                    expanded={expanded === 1 && project.projectId === expandProject} 
+                                <Accordion
+                                    expanded={expanded === 1 && project.projectId === expandProject}
                                     onChange={changeExpanded(1, project.projectId)}
                                 >
                                     <AccordionSummary>
@@ -384,8 +418,8 @@ function Projects() {
                                     </AccordionDetails>
                                 </Accordion>
                                 <Divider />
-                                <Accordion 
-                                    expanded={expanded === 2 && project.projectId === expandProject} 
+                                <Accordion
+                                    expanded={expanded === 2 && project.projectId === expandProject}
                                     onChange={changeExpanded(2, project.projectId)}
                                 >
                                     <AccordionSummary>
@@ -401,8 +435,8 @@ function Projects() {
                                     </AccordionDetails>
                                 </Accordion>
                                 <Divider />
-                                <Accordion 
-                                    expanded={expanded === 3 && project.projectId === expandProject} 
+                                <Accordion
+                                    expanded={expanded === 3 && project.projectId === expandProject}
                                     onChange={changeExpanded(3, project.projectId)}
                                 >
                                     <AccordionSummary>
@@ -425,9 +459,11 @@ function Projects() {
     };
 
     const handleDialogClose = () => {
-        store.dispatch(setProjectData('open', !open));
+        store.dispatch(setProjectData('open', false));
         setIsUpdate(false);
         handleClear();
+        setConfirmOpen(false);
+        setUpdateId('');
     };
 
     return (

@@ -61,6 +61,9 @@ function EndUsers() {
     const [isEnduserUpdate, setIsEnduserUpdate] = useState(false);
     const [enduserUpdateId, setEnduserUpdateId] = useState(null);
 
+    const [confirmSaleOpen, setConfirmSaleOpen] = useState(false);
+    const [confirmEnduserOpen, setConfirmEnduserOpen] = useState(false);
+
     const fullWidth = true;
 
     const breakpoints = {
@@ -159,14 +162,6 @@ function EndUsers() {
         }
     };
 
-    const handleSaleDelete = (saleId) => {
-        store.dispatch(removeSale(saleId));
-    };
-
-    const handleEnduserDelete = (enduserId) => {
-        store.dispatch(removeEnduser(enduserId));
-    };
-
     const setToSaleUpdate = (id) => {
         const sale = getSale(id)(store.getState());
 
@@ -255,9 +250,40 @@ function EndUsers() {
                                         <IconButton onClick={() => setToSaleUpdate(sale.saleId)}>
                                             <EditOutlined />
                                         </IconButton>
-                                        <IconButton onClick={() => handleSaleDelete(sale.saleId)}>
+                                        <IconButton onClick={() => { setUpdateId(sale.saleId); setConfirmSaleOpen(true); }}>
                                             <DeleteOutlined />
                                         </IconButton>
+                                        <Dialog
+                                            open={confirmSaleOpen}
+                                            onClose={handleDialogClose}
+                                            fullWidth={fullWidth}
+                                            maxWidth='xs'
+                                        >
+                                            <DialogTitle>
+                                                Do you want to delete the Card?
+                                            </DialogTitle>
+                                            <Divider />
+                                            <DialogContent>
+                                                <Stack direction='row' spacing={2} justifyContent='right'>
+                                                    <Button
+                                                        variant='outlined'
+                                                        onClick={handleDialogClose}
+                                                    >
+                                                        No
+                                                    </Button>
+
+                                                    <Button
+                                                        variant='contained'
+                                                        onClick={() => {
+                                                            store.dispatch(removeSale(updateId));
+                                                            setConfirmSaleOpen(false);
+                                                        }}
+                                                    >
+                                                        Yes
+                                                    </Button>
+                                                </Stack>
+                                            </DialogContent>
+                                        </Dialog>
                                     </Stack>
                                 }
                                 title={(sale.enduser !== undefined && sale.enduser !== null) ? sale.enduser.company : '-'}
@@ -278,9 +304,13 @@ function EndUsers() {
     };
 
     const handleDialogClose = () => {
-        store.dispatch(setSalesData('open', !open));
+        store.dispatch(setSalesData('open', false));
         handleClear();
         setIsUpdate(false);
+        setConfirmSaleOpen(false);
+        setConfirmEnduserOpen(false);
+        setUpdateId('');
+        setEnduserUpdateId('');
     };
 
     const formatDate = (date) => {
@@ -301,9 +331,40 @@ function EndUsers() {
                             <IconButton onClick={() => setToEnduserUpdate(enduser.enduserId)}>
                                 <EditOutlined />
                             </IconButton>
-                            <IconButton onClick={() => handleEnduserDelete(enduser.enduserId)}>
+                            <IconButton onClick={() => {setEnduserUpdateId(enduser.enduserId); setConfirmEnduserOpen(true);}}>
                                 <DeleteOutlined />
                             </IconButton>
+                            <Dialog
+                                open={confirmEnduserOpen}
+                                onClose={handleDialogClose}
+                                fullWidth={fullWidth}
+                                maxWidth='xs'
+                            >
+                                <DialogTitle>
+                                    Do you want to delete the Card?
+                                </DialogTitle>
+                                <Divider />
+                                <DialogContent>
+                                    <Stack direction='row' spacing={2} justifyContent='right'>
+                                        <Button
+                                            variant='outlined'
+                                            onClick={handleDialogClose}
+                                        >
+                                            No
+                                        </Button>
+
+                                        <Button
+                                            variant='contained'
+                                            onClick={() => {
+                                                store.dispatch(removeEnduser(enduserUpdateId));
+                                                setConfirmEnduserOpen(false);
+                                            }}
+                                        >
+                                            Yes
+                                        </Button>
+                                    </Stack>
+                                </DialogContent>
+                            </Dialog>
                         </Stack>
                         <Divider />
                         {sales.filter(sale => sale.enduserId === enduser.enduserId)

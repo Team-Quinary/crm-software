@@ -63,6 +63,8 @@ function Customers() {
     const [emailErrorMsg, setEmailErrorMsg] = useState('');
     const [companyErrorMsg, setCompanyErrorMsg] = useState('');
 
+    const [confirmOpen, setConfirmOpen] = useState(false);
+
     const fullWidth = true;
 
     const breakpoints = {
@@ -170,10 +172,6 @@ function Customers() {
         }
     };
 
-    const handleDelete = (userId) => {
-        store.dispatch(removeCustomer(userId));
-    };
-
     const setToUpdate = (id) => {
         const customer = getCustomer(id)(store.getState());
 
@@ -237,9 +235,40 @@ function Customers() {
                                             <IconButton onClick={() => setToUpdate(customer.userId)}>
                                                 <EditOutlined />
                                             </IconButton>
-                                            <IconButton onClick={() => handleDelete(customer.userId)}>
+                                            <IconButton onClick={() => {setConfirmOpen(true); setUpdateId(customer.userId);}}>
                                                 <DeleteOutlined />
                                             </IconButton>
+                                            <Dialog
+                                                open={confirmOpen}
+                                                onClose={handleDialogClose}
+                                                fullWidth={fullWidth}
+                                                maxWidth='xs'
+                                            >
+                                                <DialogTitle>
+                                                    Do you want to delete the Card?
+                                                </DialogTitle>
+                                                <Divider />
+                                                <DialogContent>
+                                                    <Stack direction='row' spacing={2} justifyContent='right'>
+                                                        <Button
+                                                            variant='outlined'
+                                                            onClick={handleDialogClose}
+                                                        >
+                                                            No
+                                                        </Button>
+
+                                                        <Button
+                                                            variant='contained'
+                                                            onClick={() => {
+                                                                store.dispatch(removeCustomer(updateId));
+                                                                setConfirmOpen(false);
+                                                            }}
+                                                        >
+                                                            Yes
+                                                        </Button>
+                                                    </Stack>
+                                                </DialogContent>
+                                            </Dialog>
                                         </Stack>
                                     }
                                     title={customer.company}
@@ -263,9 +292,11 @@ function Customers() {
     };
 
     const handleDialogClose = () => {
-        store.dispatch(setCustomerData('open', !open));
+        store.dispatch(setCustomerData('open', false));
         handleClear();
         setIsUpdate(false);
+        setConfirmOpen(false);
+        setUpdateId('');
     };
 
     useEffect(() => {

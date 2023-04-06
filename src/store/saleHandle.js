@@ -95,7 +95,6 @@ export const saleSlice = createSlice({
             const sortList = (s1, s2) => {
                 switch(state.variables.sortField) {
                     case 'enduser':
-                        console.log(s1.enduser.company);
                         return (
                             (s1.enduser.company < s2.enduser.company)
                                 ? -state.variables.descending
@@ -186,7 +185,7 @@ export const updateSale = (saleId, sale) => (dispatch, getState) => {
 export const removeSale = (saleId) => (dispatch, getState) => {
     dispatch(
         apiCallBegan({
-            url: saleUrl + '/' + saleId,
+            url: '/Enduser/Sale/' + saleId,
             method: 'delete',
             data: saleId,
             onSuccess: saleRemoved.type,

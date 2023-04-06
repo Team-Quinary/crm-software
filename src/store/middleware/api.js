@@ -27,7 +27,7 @@ const api = ({ dispatch }) => next => async action => {
 
     try {
         const response = await axios.request({
-            baseURL: 'https://localhost:7143/api',
+            baseURL: 'https://localhost:7143/api', // environment variable
             url,
             headers: {"Authorization" : `Bearer ${store.getState().login.token}`},
             method,
