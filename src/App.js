@@ -26,6 +26,8 @@ import MsgHome from "./components/Chat/Pages/MsgHome"
 import MsgLogin from "./components/Chat/Pages/MsgLogin"
 import MsgRegister from "./components/Chat/Pages/MsgRegister"
 import MsgProfile from "./components/Chat/Pages/MsgProfile"
+import Forms from "./components/form/Forms"
+import Question_Home from "./components/form/Home"
 
 
 
@@ -66,7 +68,9 @@ function App() {
                     <Route path="/components/Chat/Pages/MsgHome" element={<MsgHome/>}/>
                     <Route path="/register" element={<MsgRegister/>}/>
                     <Route path="/components/Chat/Pages/MsgLogin" element={<MsgLogin/>}/>
-                    <Route path="/profile" element={<MsgProfile/>}/>
+                    <Route path="/profile" element={<MsgProfile />} />
+                    <Route path="/components/form/Forms" element={<Forms />}/>
+                    <Route path="/components/form/Question_Home" element={<Question_Home/> }/>
                 </Route>
             </>
         )
