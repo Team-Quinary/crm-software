@@ -1,10 +1,11 @@
 import React from 'react'
-import Chart from '../components/charts/Chart'
+import Graph from '../components/charts/Graph'
+
 
 export default function FeedbackDashboard() {
   return (
     <div>
-      <Chart/>
+    <Graph/>
     </div>
   )
 }
