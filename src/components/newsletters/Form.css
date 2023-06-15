@@ -1,0 +1,57 @@
+.parent {
+    display: flex;
+}
+
+.left_cell {
+    flex: 1;
+    padding: 20px;
+    border: 1px solid #2b2626;
+    border-radius: 4px;
+    background-color: aliceblue;
+}
+
+.right_cell {
+    flex: 1;
+    padding: 20px;
+    border: 1px solid #2b2626;
+    border-radius: 4px;
+    background-color: aliceblue;
+}
+
+p {
+    margin-bottom: 10px;
+}
+
+input[type='text'],
+input[type='file'] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+.image {
+    margin-bottom: 20px;
+}
+
+.display {
+    border: 1px solid #ccc;
+    padding: 20px;
+}
+
+.display p {
+    margin: 0;
+}
+
+.display img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin-top: 10px;
+}
+
+.Description{
+    width: 100%;
+    height: 20%;
+}

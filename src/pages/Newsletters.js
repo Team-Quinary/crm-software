@@ -1,10 +1,10 @@
 import React from 'react'
-import Newsletter from '../components/newsletters/Newsletter'
+import Form from '../components/newsletters/Form'
 
 export default function Newsletters() {
   return (
     <div>
-      <Newsletter/>
+     <Form/>
     </div>
   )
 }
