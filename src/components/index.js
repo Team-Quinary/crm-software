@@ -15,6 +15,7 @@ import Board from './Board/Board';
 import Editable from './Editable/Editable';
 import EditForm from './Form/EditForm';
 import Preview from './Form/Preview';
+import FileUpload from './FileUpload/FileUpload';
 
 export { 
     Card, 
@@ -36,5 +37,6 @@ export {
     Board,
     Editable,
     EditForm,
-    Preview
+    Preview,
+    FileUpload
 };

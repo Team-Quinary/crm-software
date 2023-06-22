@@ -17,6 +17,7 @@ export const ENDPOINTS = {
     progress: '/Progress',
     feedbackForm: '/FeedbackForm',
     feedbackSaveChanges: '/FeedbackForm/SaveChanges',
+    email: '/Email',
 };
 
 export const apiCallBegan = createAction('api/callBegan');

@@ -8,6 +8,7 @@ import saleReducer from './saleHandle';
 import paymentReducer from './paymentHandle';
 import progressReducer from './progressHandle';
 import feedbackFormReducer from "./feedbackFormHandle";
+import emailReducer from "./emailHandle";
 
 export default combineReducers({
     customers: customerReducer,
@@ -17,4 +18,5 @@ export default combineReducers({
     payments: paymentReducer,
     progress: progressReducer,
     feedbackForms: feedbackFormReducer,
+    emails: emailReducer,
 });

@@ -1,66 +1,84 @@
-import React, { useState } from 'react'
-import './Display.css'
+import React from 'react';
+import { createUseStyles } from 'react-jss';
 
-export default function Display({ Head, Sub, Des, Img }) {
+// material-ui imports
+import Typography from '@mui/material/Typography';
 
-    const [formsState, setFormState] = useState({});
+// local imports
+import SampleAvatar from '../../assets/avatar.png';
+import './Display.css';
 
-    const changeHandler = (event) => {
-        setFormState({ ...formsState, [event.target.name]: event.target.value });
-    };
+// styles
+const useStyles = createUseStyles({
+    container: {
+        backgroundColor: '#E6E8EC',
+        padding: '20px',
+        margin: '20px',
+        borderRadius: '4px',
+        border: '1px solid #482890',
+        boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)',
+    },
+    topicArea: {
+        display: 'grid',
+        gridTemplateColumns: '0.8fr 0.2fr',
+        columnGap: '10px',
+        alignItems: 'start',
+    },
+    heading: {
+        gridColumn: '1 / span 1',
+    },
+    subHeading: {
+        gridRow: '2 / span 1',
+    },
+    description: {
+        padding: '10px 0',
+    },
+    image: {
+        width: '100%',
+        gridColumn: '2 / span 1',
+        gridRow: '1 / span 2',
+    }
+});
 
-    const handleKeyPress = (event) => {
-        if (event.key === 'Enter') {
-            event.target.style.height = 'auto';
-            event.target.style.height = `${event.target.scrollHeight}px`;
-        }
-    };
+const Display = (props) => {
+    const {
+        heading,
+        subHeading,
+        description,
+        image
+    } = props;
 
-    const submitHandler = (event) => {
-        event.preventDefault();
-        const config = {
-            SecureToken: '8d52e579-7cf8-40fe-8086-c66c43d3cda3 ',
-            To: 'waruni@yopmail.com',
-            From: formsState.email,
-            Subject: "This is the subject",
-            Body: `${formsState.name} connected to you over email`,
-        };
-        if (window.Email) {
-            window.Email.send(config).then(() => alert("email sent successfully"));
-        }
-    };
+    const Description = () => {
+        const sampleDesc = 'This is a sample Description. Provide your own description in the form.';
+        const lines = (description || sampleDesc).split('\n');
+
+        return (
+            <div className="description">
+                {lines.map((line, index) => (
+                    <Typography key={index} variant="body1">
+                        {line}
+                    </Typography>
+                ))}
+            </div>
+        );
+    }
 
     return (
-        <div className='display'>
-            <div className='heading'>
-                <p style={{ fontFamily: 'sans-serif', fontWeight: 'bold', fontSize: '28px', textAlign: 'center' }}>{Head}</p>
+        <div className="container">
+            <div className="topicArea">
+                <h2 className="heading">
+                    {heading || 'Heading'}
+                </h2>
+                <h3 className="subHeading">
+                    {subHeading || 'Sub Heading'}
+                </h3>
+                <img src={image ? URL.createObjectURL(image) : SampleAvatar} alt='Uploaded'
+                    className="image"
+                />
             </div>
-            <div className='sub_heading'>
-                <p style={{ fontFamily: 'sans-serif', fontWeight: 'bold', fontSize: '24px', textAlign: 'center' }}>{Sub}</p>
-            </div>
-            <div className='image'>
-                {Img && <img src={URL.createObjectURL(Img)} alt='Uploaded' className='uploaded_image' />}
-            </div>
-            {Des && (
-                <div className='description'>
-                    <textarea
-                        style={{ fontFamily: 'sans-serif', fontWeight: 'normal', fontSize: '16px', textAlign: 'left' }}
-                        value={Des}
-                        onChange={() => { }}
-                        onKeyPress={handleKeyPress}
-                        placeholder='Description'
-                        className='description'
-                    />
-                </div>
-            )}
-
-            <div className='email'>
-                <form className='email_form' onSubmit={submitHandler}>
-                    <input type='text' name="name" placeholder="Your Name" value={formsState.name} onChange={changeHandler} className='border' />
-                    <input type='email' name="email" placeholder='Your Email' value={formsState.email} onChange={changeHandler} className='border' />
-                    <input type='submit' value="send email" />
-                </form>
-            </div>
+            <Description />
         </div>
     )
-}
+};
+
+export default Display;

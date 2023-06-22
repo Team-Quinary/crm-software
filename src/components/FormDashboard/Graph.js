@@ -7,8 +7,8 @@ import PieChart2 from './PieChart2'
 
 const pdata = [
     {
-        month: 'January',//name
-        rate: 4, //student
+        month: 'January',
+        rate: 4,
         satisfaction: 90
     },
     {

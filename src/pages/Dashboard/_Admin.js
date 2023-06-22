@@ -33,9 +33,7 @@ export default function Admin() {
             payments: item
         }
     });
-
-    console.log(paymentsData);
-
+    
     return (
         <div className='admin'>
             <div className={styles.container}>
