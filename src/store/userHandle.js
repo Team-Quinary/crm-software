@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { createSelector } from "reselect";
-import { apiCallBegan } from "./middleware/api";
-import { ENDPOINTS } from "./middleware/api";
+
+// local imports
+import { apiCallBegan, ENDPOINTS } from "./middleware/api";
 
 export const userTypes = ['Admin', 'Tech Lead'];
 
@@ -80,16 +81,16 @@ export const userSlice = createSlice({
             const index = state.list.findIndex(user => user.userId === action.payload.userId);
             if (index >= 0) state.list.splice(index, 1);
         },
-        dataCleared: (state, action) => {
+        dataCleared: (state) => {
             state.variables = initialVars;
         },
         dataSet: (state, action) => {
             state.variables[action.payload.field] = action.payload.data;
         },
-        usersSorted: (state, action) => {
+        usersSorted: (state) => {
             const sortList = (u1, u2) => {
-                var name1 = u1.firstName + " " + u1.lastName;
-                var name2 = u2.firstName + " " + u2.lastName;
+                const name1 = u1.firstName + " " + u1.lastName;
+                const name2 = u2.firstName + " " + u2.lastName;
 
                 return (
                     (name1 < name2)
@@ -121,7 +122,7 @@ export default userSlice.reducer;
 
 const url = ENDPOINTS.user;
 
-export const loadUsers = () => (dispatch, getState) => {
+export const loadUsers = () => (dispatch) => {
     dispatch(
         apiCallBegan({
             url,
@@ -132,7 +133,7 @@ export const loadUsers = () => (dispatch, getState) => {
     );
 };
 
-export const addUser = (user) => (dispatch, getState) => {
+export const addUser = (user) => (dispatch) => {
     dispatch(
         apiCallBegan({
             url,
@@ -145,7 +146,7 @@ export const addUser = (user) => (dispatch, getState) => {
     }));
 };
 
-export const updateUser = (userId, user) => (dispatch, getState) => {
+export const updateUser = (userId, user) => (dispatch) => {
     dispatch(
         apiCallBegan({
             url: url + '/' + userId,
@@ -158,7 +159,7 @@ export const updateUser = (userId, user) => (dispatch, getState) => {
     }));
 };
 
-export const removeUser = (userId) => (dispatch, getState) => {
+export const removeUser = (userId) => (dispatch) => {
     dispatch(
         apiCallBegan({
             url: url + '/' + userId,
@@ -169,20 +170,20 @@ export const removeUser = (userId) => (dispatch, getState) => {
     );
 };
 
-export const clearData = () => (dispatch, getState) => {
+export const clearData = () => (dispatch) => {
     dispatch({
         type: dataCleared.type
     });
 }
 
-export const setUserData = (field, data) => (dispatch, getState) => {
+export const setUserData = (field, data) => (dispatch) => {
     dispatch({
         type: dataSet.type,
         payload: { field, data }
     });
 }
 
-export const sortUsers = () => (dispatch, getState) => {
+export const sortUsers = () => (dispatch) => {
     dispatch({
         type: usersSorted.type
     });

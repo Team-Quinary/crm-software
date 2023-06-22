@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createSelector } from "reselect";
-import { apiCallBegan } from "./middleware/api";
-import { ENDPOINTS } from "./middleware/api";
+
+// local imports
+import { apiCallBegan, loggedOut, ENDPOINTS } from "./middleware/api";
 
 const initialUser = {
     userId: null,
@@ -51,11 +51,11 @@ export const loginSlice = createSlice({
                 state.currentUser.pic = `data:image/png;base64,${content.fileContents}`;
             }
         },
-        loggedOut: (state, action) => {
+        loggedOut: (state) => {
             state.token = null;
             state.currentUser = initialUser;
         },
-        dataCleared: (state, action) => {
+        dataCleared: (state) => {
             state.currentUser = initialUser;
             state.dashboardData = initialDashboardData;
         },
@@ -84,16 +84,14 @@ export default loginSlice.reducer;
 
 // Action Creators
 
-const url = ENDPOINTS.login;
+const url = ENDPOINTS.loginBase;
 
-export const logIn = (data) => (dispatch, getState) => {
-    const logUrl = url + '/Login';
-
+export const logIn = (data) => (dispatch) => {
     dispatch(
         apiCallBegan({
-            url: logUrl,
+            url: ENDPOINTS.login,
             method: 'post',
-            data: data,
+            data,
             onSuccess: loggedIn.type,
         })
     ).then(() => dispatch(
@@ -104,7 +102,7 @@ export const logIn = (data) => (dispatch, getState) => {
     ));
 };
 
-export const getTokenData = () => (dispatch, getState) => {
+export const getTokenData = () => (dispatch) => {
     dispatch(
         apiCallBegan({
             url,
@@ -113,24 +111,24 @@ export const getTokenData = () => (dispatch, getState) => {
     );
 }
 
-export const logOut = () => (dispatch, getState) => {
-    dispatch({type: 'login/loggedOut'});
+export const logOut = () => (dispatch) => {
+    dispatch(loggedOut());
 }
 
-export const clearData = () => (dispatch, getState) => {
+export const clearData = () => (dispatch) => {
     dispatch({
         type: dataCleared.type
     });
 }
 
-export const setLoginData = (field, data) => (dispatch, getState) => {
+export const setLoginData = (field, data) => (dispatch) => {
     dispatch({
         type: dataSet.type,
         payload: { field, data }
     });
 }
 
-export const loadDashboardData = () => (dispatch, getState) => {
+export const loadDashboardData = () => (dispatch) => {
     dispatch(
         apiCallBegan({
             url: ENDPOINTS.dashboard,
@@ -139,32 +137,26 @@ export const loadDashboardData = () => (dispatch, getState) => {
     );
 }
 
-export const authenticateUser = (data) => (dispatch, getState) => {
+export const authenticateUser = (data) => (dispatch) => {
     dispatch(
         apiCallBegan({
-            url: ENDPOINTS.login + '/Authenticate',
+            url: ENDPOINTS.authenticate,
             method: 'post',
-            data: data,
+            data,
             onSuccess: userAuthenticated.type,
         })
     );
 };
 
-export const updateProfile = (userId, data) => (dispatch, getState) => {
+export const updateProfile = (userId, data) => (dispatch) => {
     dispatch(
         apiCallBegan({
             url: ENDPOINTS.user + '/' + userId,
             method: 'put',
-            data: data,
+            data,
             onSuccess: gotTokenData.type,
         })
     );
 };
 
 // Selectors
-
-// export const getLoggedStatus = state => state.login.logged;
-
-export const getLoggedStatus = () => createSelector(
-    state => state.login.logged === true
-);
