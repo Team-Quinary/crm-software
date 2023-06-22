@@ -1,0 +1,13 @@
+body, p {
+    margin: 0;
+    padding: 0;
+}
+
+.searchbar-container {
+    position: sticky;
+    top: 70px;
+    z-index: 5;
+    background-color: #fff;
+    padding: 10px 15px;
+    border-radius: 8px;
+}

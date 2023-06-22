@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { createSelector } from "reselect";
-import { apiCallBegan } from "./middleware/api";
-import { ENDPOINTS } from "./middleware/api";
+
+// local imports
+import { apiCallBegan, ENDPOINTS } from "./middleware/api";
 
 export const statusTypes = ['Ongoing', 'Completed', 'Suspended'];
 
@@ -97,7 +98,7 @@ export const projectSlice = createSlice({
             const index = state.list.findIndex(project => project.projectId === action.payload.projectId);
             if (index >= 0) state.list.splice(index, 1);
         },
-        dataCleared: (state, action) => {
+        dataCleared: (state) => {
             state.variables = initialVars;
         },
         dataSet: (state, action) => {
@@ -123,7 +124,7 @@ export default projectSlice.reducer;
 
 const url = ENDPOINTS.project;
 
-export const loadProjects = () => (dispatch, getState) => {
+export const loadProjects = () => (dispatch) => {
     dispatch(
         apiCallBegan({
             url,
@@ -134,7 +135,7 @@ export const loadProjects = () => (dispatch, getState) => {
     );
 };
 
-export const addProject = (project) => (dispatch, getState) => {
+export const addProject = (project) => (dispatch) => {
     dispatch(
         apiCallBegan({
             url,
@@ -148,7 +149,7 @@ export const addProject = (project) => (dispatch, getState) => {
     // }));
 };
 
-export const updateProject = (projectId, project) => (dispatch, getState) => {
+export const updateProject = (projectId, project) => (dispatch) => {
     dispatch(
         apiCallBegan({
             url: url + '/' + projectId,
@@ -162,7 +163,7 @@ export const updateProject = (projectId, project) => (dispatch, getState) => {
     // }));
 };
 
-export const removeProject = (projectId) => (dispatch, getState) => {
+export const removeProject = (projectId) => (dispatch) => {
     dispatch(
         apiCallBegan({
             url: url + '/' + projectId,
@@ -173,20 +174,20 @@ export const removeProject = (projectId) => (dispatch, getState) => {
     );
 };
 
-export const clearData = () => (dispatch, getState) => {
+export const clearData = () => (dispatch) => {
     dispatch({
         type: dataCleared.type
     });
 }
 
-export const setProjectData = (field, data) => (dispatch, getState) => {
+export const setProjectData = (field, data) => (dispatch) => {
     dispatch({
         type: dataSet.type,
         payload: { field, data }
     });
 }
 
-export const sortProjects = () => (dispatch, getState) => {
+export const sortProjects = () => () => {
     // dispatch({
     //     type: usersSorted.type
     // });

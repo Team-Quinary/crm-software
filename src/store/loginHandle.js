@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createSelector } from "reselect";
-import { apiCallBegan } from "./middleware/api";
-import { ENDPOINTS } from "./middleware/api";
+
+// local imports
+import { apiCallBegan, loggedOut, ENDPOINTS } from "./middleware/api";
 
 const initialUser = {
     userId: null,
@@ -10,14 +10,28 @@ const initialUser = {
     lastName: '',
     email: '',
     role: 'unknown',
-    pic: '-'
+    pic: '-',
+    verified: false,
+};
+
+const initialDashboardData = {
+    projectCount: 0,
+    customerCount: 0,
+    techLeadCount: 0,
+    completed: 0,
+    ongoing: 0,
+    suspended: 0,
+    lastDays: [],
+    newProjects: [],
+    payments: []    
 };
 
 export const loginSlice = createSlice({
     name: 'login',
     initialState: {
         token: null,
-        currentUser: initialUser
+        currentUser: initialUser,
+        dashboardData: initialDashboardData
     },
     reducers: {
         loggedIn: (state, action) => {
@@ -37,32 +51,47 @@ export const loginSlice = createSlice({
                 state.currentUser.pic = `data:image/png;base64,${content.fileContents}`;
             }
         },
-        loggedOut: (state, action) => {
+        loggedOut: (state) => {
             state.token = null;
             state.currentUser = initialUser;
-        }
+        },
+        dataCleared: (state) => {
+            state.currentUser = initialUser;
+            state.dashboardData = initialDashboardData;
+        },
+        dataSet: (state, action) => {
+            state.currentUser[action.payload.field] = action.payload.data;
+        },
+        dashboardDataLoaded: (state, action) => {
+            state.dashboardData = action.payload;
+        },
+        userAuthenticated: (state, action) => {
+            state.currentUser.verified = action.payload;
+        },
     }
 })
 
 const {
     loggedIn,
     gotTokenData,
+    dataCleared,
+    dataSet,
+    dashboardDataLoaded,
+    userAuthenticated
 } = loginSlice.actions;
 
 export default loginSlice.reducer;
 
 // Action Creators
 
-const url = ENDPOINTS.login;
+const url = ENDPOINTS.loginBase;
 
-export const logIn = (data) => (dispatch, getState) => {
-    const logUrl = url + '/Login';
-
+export const logIn = (data) => (dispatch) => {
     dispatch(
         apiCallBegan({
-            url: logUrl,
+            url: ENDPOINTS.login,
             method: 'post',
-            data: data,
+            data,
             onSuccess: loggedIn.type,
         })
     ).then(() => dispatch(
@@ -73,7 +102,7 @@ export const logIn = (data) => (dispatch, getState) => {
     ));
 };
 
-export const getTokenData = () => (dispatch, getState) => {
+export const getTokenData = () => (dispatch) => {
     dispatch(
         apiCallBegan({
             url,
@@ -82,14 +111,52 @@ export const getTokenData = () => (dispatch, getState) => {
     );
 }
 
-export const logOut = () => (dispatch, getState) => {
-    dispatch({type: 'login/loggedOut'});
+export const logOut = () => (dispatch) => {
+    dispatch(loggedOut());
 }
 
+export const clearData = () => (dispatch) => {
+    dispatch({
+        type: dataCleared.type
+    });
+}
+
+export const setLoginData = (field, data) => (dispatch) => {
+    dispatch({
+        type: dataSet.type,
+        payload: { field, data }
+    });
+}
+
+export const loadDashboardData = () => (dispatch) => {
+    dispatch(
+        apiCallBegan({
+            url: ENDPOINTS.dashboard,
+            onSuccess: dashboardDataLoaded.type,
+        })
+    );
+}
+
+export const authenticateUser = (data) => (dispatch) => {
+    dispatch(
+        apiCallBegan({
+            url: ENDPOINTS.authenticate,
+            method: 'post',
+            data,
+            onSuccess: userAuthenticated.type,
+        })
+    );
+};
+
+export const updateProfile = (userId, data) => (dispatch) => {
+    dispatch(
+        apiCallBegan({
+            url: ENDPOINTS.user + '/' + userId,
+            method: 'put',
+            data,
+            onSuccess: gotTokenData.type,
+        })
+    );
+};
+
 // Selectors
-
-// export const getLoggedStatus = state => state.login.logged;
-
-export const getLoggedStatus = () => createSelector(
-    state => state.login.logged === true
-);

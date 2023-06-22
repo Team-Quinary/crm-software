@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { createSelector } from "reselect";
-import { apiCallBegan } from "./middleware/api";
-import { ENDPOINTS } from "./middleware/api";
+
+// local imports
+import { apiCallBegan, ENDPOINTS } from "./middleware/api";
 
 const initialVars = {
     newCompany: '',
@@ -85,17 +86,16 @@ export const saleSlice = createSlice({
             const index = state.endUsersList.findIndex(endUser => endUser.enduserId === action.payload.enduserId);
             if (index >= 0) state.endUsersList.splice(index, 1);
         },
-        dataCleared: (state, action) => {
+        dataCleared: (state) => {
             state.variables = initialVars;
         },
         dataSet: (state, action) => {
             state.variables[action.payload.field] = action.payload.data;
         },
-        salesSorted: (state, action) => {
+        salesSorted: (state) => {
             const sortList = (s1, s2) => {
                 switch(state.variables.sortField) {
                     case 'enduser':
-                        console.log(s1.enduser.company);
                         return (
                             (s1.enduser.company < s2.enduser.company)
                                 ? -state.variables.descending
@@ -146,7 +146,7 @@ export default saleSlice.reducer;
 const url = ENDPOINTS.endUser;
 const saleUrl = url + '/Sale';
 
-export const loadSales = () => (dispatch, getState) => {
+export const loadSales = () => (dispatch) => {
     dispatch(
         apiCallBegan({
             url: saleUrl,
@@ -157,7 +157,7 @@ export const loadSales = () => (dispatch, getState) => {
     );
 };
 
-export const addSale = (sale) => (dispatch, getState) => {
+export const addSale = (sale) => (dispatch) => {
     dispatch(
         apiCallBegan({
             url: saleUrl,
@@ -170,7 +170,7 @@ export const addSale = (sale) => (dispatch, getState) => {
     }));
 };
 
-export const updateSale = (saleId, sale) => (dispatch, getState) => {
+export const updateSale = (saleId, sale) => (dispatch) => {
     dispatch(
         apiCallBegan({
             url: saleUrl + '/' + saleId,
@@ -183,10 +183,10 @@ export const updateSale = (saleId, sale) => (dispatch, getState) => {
     }));
 };
 
-export const removeSale = (saleId) => (dispatch, getState) => {
+export const removeSale = (saleId) => (dispatch) => {
     dispatch(
         apiCallBegan({
-            url: saleUrl + '/' + saleId,
+            url: '/Enduser/Sale/' + saleId,
             method: 'delete',
             data: saleId,
             onSuccess: saleRemoved.type,
@@ -194,26 +194,26 @@ export const removeSale = (saleId) => (dispatch, getState) => {
     );
 };
 
-export const clearData = () => (dispatch, getState) => {
+export const clearData = () => (dispatch) => {
     dispatch({
         type: dataCleared.type
     });
 }
 
-export const setSalesData = (field, data) => (dispatch, getState) => {
+export const setSalesData = (field, data) => (dispatch) => {
     dispatch({
         type: dataSet.type,
         payload: { field, data }
     });
 }
 
-export const sortSales = () => (dispatch, getState) => {
+export const sortSales = () => (dispatch) => {
     dispatch({
         type: salesSorted.type
     });
 }
 
-export const loadEndusers = () => (dispatch, getState) => {
+export const loadEndusers = () => (dispatch) => {
     dispatch(
         apiCallBegan({
             url,
@@ -222,7 +222,7 @@ export const loadEndusers = () => (dispatch, getState) => {
     );
 };
 
-export const addEnduser = (enduser) => (dispatch, getState) => {
+export const addEnduser = (enduser) => (dispatch) => {
     dispatch(
         apiCallBegan({
             url,
@@ -233,7 +233,7 @@ export const addEnduser = (enduser) => (dispatch, getState) => {
     );
 };
 
-export const updateEnduser = (enduserId, enduser) => (dispatch, getState) => {
+export const updateEnduser = (enduserId, enduser) => (dispatch) => {
     dispatch(
         apiCallBegan({
             url: url + '/' + enduserId,
@@ -244,7 +244,7 @@ export const updateEnduser = (enduserId, enduser) => (dispatch, getState) => {
     );
 };
 
-export const removeEnduser = (enduserId) => (dispatch, getState) => {
+export const removeEnduser = (enduserId) => (dispatch) => {
     dispatch(
         apiCallBegan({
             url: url + '/' + enduserId,
