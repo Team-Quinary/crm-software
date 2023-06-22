@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { apiCallBegan } from "./middleware/api";
-import { ENDPOINTS } from "./middleware/api";
+
+// local imports
+import { apiCallBegan, ENDPOINTS } from "./middleware/api";
 
 const initialVars = {
     project: null,
@@ -48,7 +49,7 @@ export const paymentSlice = createSlice({
         paymentAdded: (state, action) => {
             state.list.push(action.payload);
         },
-        dataCleared: (state, action) => {
+        dataCleared: (state) => {
             state.variables = initialVars;
         },
         dataSet: (state, action) => {
@@ -83,7 +84,7 @@ export default paymentSlice.reducer;
 
 const url = ENDPOINTS.payment;
 
-export const getClientSecret = (projectId) => (dispatch, getState) => {
+export const getClientSecret = (projectId) => (dispatch) => {
     const stripeUrl = url + '/Stripe/' + projectId;
 
     dispatch(
@@ -96,7 +97,7 @@ export const getClientSecret = (projectId) => (dispatch, getState) => {
     );
 }
 
-export const loadProjectDetails = (projectId) => (dispatch, getState) => {
+export const loadProjectDetails = (projectId) => (dispatch) => {
     const projectUrl = url + '/Project/' + projectId;
 
     dispatch(
@@ -109,7 +110,7 @@ export const loadProjectDetails = (projectId) => (dispatch, getState) => {
     );
 }
 
-export const loadPayments = () => (dispatch, getState) => {
+export const loadPayments = () => (dispatch) => {
     dispatch(
         apiCallBegan({
             url,
@@ -120,12 +121,12 @@ export const loadPayments = () => (dispatch, getState) => {
     );
 };
 
-export const addPayment = (projectId, clientSecret) => (dispatch, getState) => {
+export const addPayment = (projectId, clientSecret) => (dispatch) => {
     const stripeId = clientSecret.split('_secret_')[0];
     
     dispatch(
         apiCallBegan({
-            url: url,
+            url,
             method: 'post',
             data: { projectId, stripeId },
             onSuccess: paymentAdded.type,
@@ -133,13 +134,13 @@ export const addPayment = (projectId, clientSecret) => (dispatch, getState) => {
     );
 };
 
-export const clearData = () => (dispatch, getState) => {
+export const clearData = () => (dispatch) => {
     dispatch({
         type: dataCleared.type
     });
 }
 
-export const setPaymentData = (field, data) => (dispatch, getState) => {
+export const setPaymentData = (field, data) => (dispatch) => {
     dispatch({
         type: dataSet.type,
         payload: { field, data }

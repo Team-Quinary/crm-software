@@ -1,4 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
+
+// local imports
 import reducer from './_reducer';
 import api from './middleware/api';
 

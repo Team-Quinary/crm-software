@@ -1,72 +1,73 @@
 .board {
-  min-width: 290px;
-  width: 290px;
-  max-height: 100%;
-  flex-basis: 290px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-/* background-color: rgb(243, 29, 29); */
-border: 1px solid black;
-padding: 5px;
-border-radius: 8px;
+    min-width: 290px;
+    width: 290px;
+    max-height: 100%;
+    flex-basis: 290px;
+    display: flex;
+    flex-direction: column;
+    column-gap: 20px;
+    border: 1px solid black;
+    padding: 5px;
+    border-radius: 8px;
 }
-
 
 .board_header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.board_header_title {
-  font-weight: bold;
-  font-size: 1rem;
-  display: flex;
-  gap: 5px;
-  align-items: center;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
 }
 
 .board_header_title span {
-  color: rgb(154, 126, 126);
+    color: rgb(154, 126, 126);
 }
 
 .board_header_title_more {
-  cursor: pointer;
-  position: relative;
+    cursor: pointer;
+    position: relative;
 }
 
 .board_dropdown {
-  box-shadow: 1px 0px 20px rgba(0, 0, 0, 0.12);
-  padding: 20px;
-  width: 150px !important;
-  cursor: default;
+    box-shadow: 1px 0px 20px rgba(0, 0, 0, 0.12);
+    padding: 20px;
+    width: 150px !important;
+    cursor: default;
 }
+
 .board_dropdown p {
-  border-bottom: 1px solid #f8f8f8;
-  cursor: pointer;
+    border-bottom: 1px solid #E6E8EC;
+    cursor: pointer;
 }
 
 .board_cards {
-  background-color: #f8f8f8;
-  padding: 10px;
-  border-radius: 5px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  overflow-y: auto;
+    background-color: #E6E8EC;
+    padding: 10px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-height: 70vh;
 }
 
 .board_add-card {
-  background-color: #fff;
-  color: #000;
-  border-radius: 10px;
-  box-shadow: 1px 1px 0 1px rgba(0, 0, 0, 0.12);
-  width: 100%;
-  text-align: center;
+    background-color: #fff;
+    color: #000;
+    border-radius: 10px;
+    box-shadow: 1px 1px 0 1px rgba(0, 0, 0, 0.12);
+    width: 100%;
+    text-align: center;
 }
+
+.board_add-card:hover {
+    background-color: #a2a9b8;
+    box-shadow: none;
+}
+
 .board_add-card_edit {
-  background-color: #fff;
-  border-radius: 10px;
-  padding: 10px;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.droppable-col {
+    height: 100%;
 }
