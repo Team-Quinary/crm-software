@@ -1,88 +1,100 @@
-import { createBrowserRouter, createRoutesFromElements, RouterProvider, Route } 
-    from 'react-router-dom';
-import { createTheme, ThemeProvider } from '@mui/material';
-import Layout from './components/Layout';
-import Projects from './pages/Projects';
-import Customers from './pages/Customers';
-import Test from './test/Test';
-import Feedback from './pages/Feedback';
-import Newsletters from './pages/Newsletters';
-import Users from './pages/Users';
-import Dashboard from './pages/Dashboard';
-import EndUsers from './pages/EndUsers';
+import React from 'react';
+import { createRoutesFromElements, createBrowserRouter, Route, RouterProvider } from 'react-router-dom';
+import { ThemeProvider } from 'react-jss';
 
-import Login from './pages/Login';
-import { useEffect } from 'react';
-import "./components/Chat/Message_App.css"
-import store from './store/_storeConfig';
-import { loadProjects } from './store/projectHandle';
-import { loadUsers } from './store/userHandle';
-import { loadCustomers } from './store/customerHandle';
-import { loadEndusers, loadSales } from './store/saleHandle';
-import { loadPayments } from './store/paymentHandle';
-import Payments from './pages/Payments';
-import Progress from './pages/Progress';
-import MsgHome from "./components/Chat/Pages/MsgHome"
-import MsgLogin from "./components/Chat/Pages/MsgLogin"
-import MsgRegister from "./components/Chat/Pages/MsgRegister"
-import MsgProfile from "./components/Chat/Pages/MsgProfile"
-import Forms from "./components/form/Forms"
-import Question_Home from "./components/form/Home"
+// local imports
+import './App.scss';
+import { Layout } from './components';
+import { Customer, User, Login, Dashboard, Project, EndUser, Payment, Progress, FeedbackForm,
+    FeedbackDashboard, Newsletter
+} from './pages';
 
-
-
-const theme = createTheme({
+// default theme
+const theme = {
     palette: {
+        primary: {
+            main: '#6954FA',
+            light: '#64b5f6',
+            dark: '#1976d2'
+        },
         secondary: {
-            main: '#0069d9'
+            main: '#f50057',
+            light: '#ff4081',
+            dark: '#c51162'
+        },
+        background: {
+            primary: '#331c7a',
+            secondary: '#CDD0D9',
+            paper: '#E6E8EC',
+            hover: '#ff6962',
+            warn: '#fff4e5',
+        },
+        text: {
+            default: '#482890',
+            primary: '#ffffff',
+            secondary: '#99A1B2',
+            red: '#FF615A',
+            warn: '#b28704'
+        },
+    },
+    typography: {
+        fontFamily: ['Roboto', 'sans-serif'].join(','),
+        fontSize: 14,
+        h1: {
+            fontSize: '2.5rem',
+            fontWeight: 700
+        },
+        h2: {
+            fontSize: '2rem',
+            fontWeight: 700
+        },
+        h3: {
+            fontSize: '1.75rem',
+            fontWeight: 700
+        },
+        body1: {
+            fontSize: '1rem',
+            fontWeight: 400
+        },
+        body2: {
+            fontSize: '0.875rem',
+            fontWeight: 400
+        },
+        button: {
+            textTransform: 'uppercase',
+            fontWeight: 700
         }
     }
-});
+};
 
-function App() {
-    useEffect(() => {
-        store.dispatch(loadCustomers());
-        store.dispatch(loadUsers());
-        store.dispatch(loadProjects());
-        store.dispatch(loadSales());
-        store.dispatch(loadEndusers());
-        store.dispatch(loadPayments());
-    }, []);
-
+export default function App() {
     const router = createBrowserRouter(
-        createRoutesFromElements( 
+        createRoutesFromElements(
             <>
                 <Route path='/' element={<Login />} />
                 <Route element={<Layout />}>
+                    <Route path='/' element={<Customer />} />
                     <Route path='/dashboard' element={<Dashboard />} />
-                    <Route path='/projects' element={<Projects />} />
-                    <Route path='/customers' element={<Customers />} />
-                    <Route path='/users' element={<Users />} />
-                    <Route path='/end-users' element={<EndUsers />} />
+                    <Route path='/projects' element={<Project />} />
+                    <Route path='/users' element={<User />} />
+                    <Route path='/end-users' element={<EndUser />} />
+                    {/* <Route path='/reports' element={<Report/>} /> */}
                     <Route path='/progress' element={<Progress />} />
-                    <Route path='/feedbacks' element={<Feedback />} />
-                    <Route path='/newsletters' element={<Newsletters />} />
-                    <Route path='/payments' element={<Payments />} />
-                    <Route path='/*' element={<Test />} />
-
-                    <Route path="/components/Chat/Pages/MsgHome" element={<MsgHome/>}/>
-                    <Route path="/register" element={<MsgRegister/>}/>
-                    <Route path="/components/Chat/Pages/MsgLogin" element={<MsgLogin/>}/>
-                    <Route path="/profile" element={<MsgProfile />} />
-                    <Route path="/components/form/Forms" element={<Forms />}/>
-                    <Route path="/components/form/Question_Home" element={<Question_Home/> }/>
+                    <Route path='/feedbackform' element={<FeedbackForm />} />
+                    <Route path='/feedbackDashboard' element={<FeedbackDashboard/>}/>
+                    <Route path='/newsletters' element={<Newsletter />} />
+                    <Route path='/payments' element={<Payment />} />
+                    <Route path='/*' element={<Customer />} />
                 </Route>
             </>
         )
     );
 
     return (
-        <div className="App">
+        <div className='app'>
             <ThemeProvider theme={theme}>
-                <RouterProvider router={router}/>
+                <RouterProvider router={router} />
             </ThemeProvider>
         </div>
-    );
+    )
 }
-
-export default App;

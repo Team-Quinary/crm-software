@@ -1,76 +1,70 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <script type="text/javascript" src="https://www.payhere.lk/lib/payhere.js"></script>
-    <form action="result.php" method="post">
-        <button type="submit" id="payhere-payment" >PayHere Pay</button>
-    </form>
-    <!-- <button type="submit" id="payhere-payment" >PayHere Pay</button> -->
-    <script>
-        // Payment completed. It can be a successful failure.
-        payhere.onCompleted = function onCompleted(orderId) {
-            console.log("Payment completed. OrderID:" + orderId);
-            // Note: validate the payment and show success or failure page to the customer
-        };
+# Getting Started with Create React App
 
-        // Payment window closed
-        payhere.onDismissed = function onDismissed() {
-            // Note: Prompt user to pay again or show an error page
-            console.log("Payment dismissed");
-        };
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-        // Error occurred
-        payhere.onError = function onError(error) {
-            // Note: show an error page
-            console.log("Error:"  + error);
-        };
+## Available Scripts
 
-        // Put the payment variables here
-        var payment = {
-            "sandbox": true,
-            "merchant_id": "4OVx3Ve14Pw4JDDSE7nxJ33PO",    // Replace your Merchant ID
-            "return_url": "./done.html",     // Important
-            "cancel_url": "./done.html",     // Important
-            "notify_url": "./done.html",
-            "order_id": "ItemNo12345",
-            "items": "Door bell wireles",
-            "payhere_amount": "1000.00",
-            "payhere_currency": "LKR",
-            "hash": "45D3CBA93E9F2189BD630ADFE19AA6DC", // *Replace with generated hash retrieved from backend
-            "first_name": "Saman",
-            "last_name": "Perera",
-            "email": "samanp@gmail.com",
-            "phone": "0771234567",
-            "address": "No.1, Galle Road",
-            "city": "Colombo",
-            "country": "Sri Lanka",
-            "delivery_address": "No. 46, Galle road, Kalutara South",
-            "delivery_city": "Kalutara",
-            "delivery_country": "Sri Lanka",
-            "custom_1": "",
-            "custom_2": ""
-        };
+In the project directory, you can run:
 
-        // var hash = strtoupper(
-        //     md5(
-        //         $merchant_id + 
-        //         $order_id + 
-        //         number_format($amount, 2, '.', '') . 
-        //         $currency .  
-        //         strtoupper(md5($merchant_secret)) 
-        //     ) 
-        // );
+### `npm start`
 
-        // Show the payhere.js popup, when "PayHere Pay" is clicked
-        document.getElementById('payhere-payment').onclick = function (e) {
-            payhere.startPayment(payment);
-        };
-    </script>
-</body>
-</html>
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+
+The page will reload when you make changes.\
+You may also see any lint errors in the console.
+
+### `npm test`
+
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+
+### `npm run build`
+
+Builds the app for production to the `build` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
+
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
+
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+
+### `npm run eject`
+
+**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+
+If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+
+You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+
+## Learn More
+
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+
+To learn React, check out the [React documentation](https://reactjs.org/).
+
+### Code Splitting
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+
+### Analyzing the Bundle Size
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+
+### Making a Progressive Web App
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+
+### Advanced Configuration
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+
+### Deployment
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+
+### `npm run build` fails to minify
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
